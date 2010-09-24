@@ -1,0 +1,23 @@
+--- #YAML:1.0
+name:               Text-Table
+version:            1.116
+abstract:           Organize Data in Tables
+author:
+    - Anno Siegel (siegel@zrz.tu-berlin.de)
+license:            unknown
+distribution_type:  module
+configure_requires:
+    ExtUtils::MakeMaker:  0
+build_requires:
+    ExtUtils::MakeMaker:  0
+requires:
+    Test::More:     0
+    Text::Aligner:  0.05
+no_index:
+    directory:
+        - t
+        - inc
+generated_by:       ExtUtils::MakeMaker version 6.56
+meta-spec:
+    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
+    version:  1.4

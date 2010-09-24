@@ -1,0 +1,51 @@
+Revision history for Perl extension Text::Table.
+
+0.01  Tue Nov 19 17:47:02 2002
+- initial release to CPAN Tue Dec 3 07:59
+
+0.02  Tue Dec  3 23:53:54 CET 2002
+- minor bug fixes concerning spurious warnings
+- released to CPAN Thu Dec  5 01:42:11 CET 2002
+
+0.03  Sun Dec 29 18:03:57 CET 2002
+- another spurious warning from _parse_spec fixed, test added
+
+0.04  Sun Feb  9 17:14:36 CET 2003
+- see bug ids 2052, 2053
+- pod changed to reflect the implementation concerning rule() and
+  body_rule(). (It described rule() wrongly and listed non-existent
+  title_rule() instead of body_rule())
+- Added test for body_rule().
+
+0.05 Sun Feb 16 17:51:49 CET 2003
+- added method colrange (see bug id 2053)
+
+1.100 Fri Sep 12 17:34:40 CEST 2003
+- Version jump to make module version and cvs version equal (and compatible)
+
+1.102 Fri Sep 12 20:59:34 CEST 2003
+- Added features align_title and align_title_lines
+- fixed a bug with samples, which weren't honored in title alignment in
+  a table with no data
+- planned for release 6
+
+1.107 Tue Sep 21 20:47:07 CEST 2004
+- Added a feature where rows with embedded newlines are expanded
+  into following rows. (by Josh Jore)
+- Added a feature where ->add and ->load return the table object
+  enabling chained method calls. (by Josh Jore)
+- Added auto-initialisation.  An unspecified table creates the
+  requisite number of title-less columns on first data entry.
+
+1.114 Sat Feb 16 13:52:19 CET 2008
+- Changed the documentation to reflect the possibility of multiline
+  data (by daotoad).
+      Sun May 11 13:37:44 CEST 2008
+- Fixed spurious warning with ->load([])
+- Released
+
+1.115 Do 13 Mai 2010 15:50:46 CEST
+- Bug when $/ is set to undef
+
+1.116 Sa 28 Aug 2010 22:00:56 CEST
+- added color support

@@ -1,0 +1,10 @@
+Changes
+LICENSE
+MANIFEST
+MANIFEST.SKIP
+Makefile.PL
+README
+lib/Text/Table.pm
+t/01_ini.t
+t/10_Table.t
+META.yml                                 Module meta-data (added by MakeMaker)
