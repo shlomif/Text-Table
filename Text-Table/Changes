@@ -49,3 +49,6 @@ Revision history for Perl extension Text::Table.
 
 1.116 Sa 28 Aug 2010 22:00:56 CEST
 - added color support
+
+- add the callback ("sub { ... }")-based ->rule() method to render each 
+section in a rule differently.
