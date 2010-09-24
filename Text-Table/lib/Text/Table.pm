@@ -398,15 +398,53 @@ sub _rule {
     my $in_body = shift;
     return '' unless $tb->width; # this builds the cache, hence $tb->{ blank}
     my $rule = $tb->_assemble_line( $in_body, $tb->{ blank});
-    my ( $char, $alt) = map /(.)/, @_;
-    ( defined $char and length $char) or $char = ' ';
-    # replace blanks with $char. If $alt is given, replace nonblanks with $alt
-    if ( defined $alt ) {
-        $rule =~ s/(.)/$1 eq ' ' ? $char : $alt/ge;
-    } else {
-        $rule =~ s/ /$char/g if $char ne ' ';
+
+    if (ref($_[0]) eq "CODE")
+    {
+        my ($char_cb, $alt_cb) = @_;
+
+        my %callbacks =
+        (
+            'char' => { cb => $char_cb, idx => 0 },
+            'alt' => { cb => $alt_cb, idx => 0 },
+        );
+
+        my $calc_substitution = sub {
+            my $s = shift;
+
+            my $len = length($s);
+
+            my $which = substr($s, 0, 1) eq ' ' ? 'char' : 'alt';
+            my $rec = $callbacks{$which};
+
+            my $replacement = $rec->{cb}->(
+                $rec->{idx}++,
+                $len,
+            );
+            
+            $replacement = substr($replacement, 0, $len);
+            $replacement .= ' ' x ($len - length($replacement));
+
+            return $replacement;
+        };
+
+        $rule =~ s/((.)\2*)/$calc_substitution->($1)/ge;
+
+        return $rule;
     }
-    $rule;
+    else
+    {
+        my ( $char, $alt) = map /(.)/, @_;
+        ( defined $char and length $char) or $char = ' ';
+        # replace blanks with $char. If $alt is given, replace nonblanks
+        # with $alt
+        if ( defined $alt ) {
+            $rule =~ s/(.)/$1 eq ' ' ? $char : $alt/ge;
+        } else {
+            $rule =~ s/ /$char/g if $char ne ' ';
+        }
+        return $rule;
+    }
 }
 
 sub rule {
@@ -941,6 +979,9 @@ line.  Parameters and response to context are as with C<table()>.
     $tb->rule;
     $tb->rule( $char);
     $tb->rule( $char, $char1);
+    $tb->rule( sub { my ($index, $len) = @_; }, 
+               sub { my ($index, $len) = @_; },
+    );
 
 Returns a rule for the table.
 
@@ -959,6 +1000,12 @@ popular representation of line crossings.
 
 C<rule()> uses the column separators for the title section if there
 is a difference.
+
+If callbacks are specified instead of the characters, then they receive the
+index of the section of the rule they need to render and its desired length in
+characters, and should return the string to put there. The indexes given
+are 0 based (where 0 is either the left column separator or the leftmost
+cell) and the strings will be trimmed or extended in the replacement.
 
 =item body_rule()
 

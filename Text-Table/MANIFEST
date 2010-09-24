@@ -7,4 +7,4 @@ README
 lib/Text/Table.pm
 t/01_ini.t
 t/10_Table.t
-META.yml                                 Module meta-data (added by MakeMaker)
+t/11_Variable_Rule.t
