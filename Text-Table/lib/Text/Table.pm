@@ -1051,8 +1051,14 @@ same author.
 
 =head1 AUTHOR
 
+=head2 MAINTAINER
+
+Shlomi Fish, L<http://www.shlomifish.org/> - CPAN ID: "SHLOMIF".
+
+=head2 ORIGINAL AUTHOR
+
     Anno Siegel
-    CPAN ID: ANNO
+    CPAN ID: ANNO 
     siegel@zrz.tu-berlin.de
     http://www.tu-berlin.de/~siegel
 
@@ -1065,9 +1071,39 @@ it and/or modify it under the same terms as Perl itself.
 The full text of the license can be found in the
 LICENSE file included with this module.
 
+=head2 DISCLAIMER
+
+Shlomi Fish and future maintainers hereby disclaim all explicit and implicit
+copyrights on their modifications to this code, and put their modifications
+under your option of:
+
+=over 4
+
+=item * The Public Domain (CC-Zero)
+
+L<http://creativecommons.org/choose/zero/>
+
+=item * The MIT/X11 License 
+
+L<http://www.opensource.org/licenses/mit-license.php> ; 
+L<http://en.wikipedia.org/wiki/MIT_License>
+
+=item * The Artistic License version 1.0 or 2.0
+
+L<http://www.opensource.org/licenses/artistic-license-2.0.php>
+
+=item * The GNU General Public License Version 1 or at your option any later version
+
+L<http://en.wikipedia.org/wiki/GNU_General_Public_License>
+
+=back
+
+All contributions submitted to the Text-Table github repository are assumed to 
+be under these terms. Contributions under different terms will be rejected.
+
 =head1 SEE ALSO
 
-Text::Aligner, perl(1).
+L<Text::Aligner>, L<perl(1)> .
 
 =cut
 
