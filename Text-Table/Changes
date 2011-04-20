@@ -52,3 +52,6 @@ Revision history for Perl extension Text::Table.
 - add the callback ("sub { ... }")-based ->rule() method to render each 
 section in a rule differently.
 - Add SHLOMIF as the maintainer.
+- Add t/pod.t and t/pod-coverage.t . Documented $table->stringify() and 
+$table->table_height().
+

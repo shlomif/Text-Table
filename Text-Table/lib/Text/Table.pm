@@ -864,6 +864,10 @@ returns the total number of lines in a table, including title lines
 and body lines. For orthogonality, the synonym table_height() also
 exists.
 
+=item table_height()
+
+Same as C<< $table->height() >>.
+
 =item title_height()
 
     $tb->title_height
@@ -961,6 +965,13 @@ protected against large negative line numbers, it truncates the
 range described by $line_number and $n to the existing lines.  If
 $n is 0 or negative, no lines are returned (an empty string in scalar
 context).
+
+=item stringify()
+
+Returns a string representation of the table. This method is called for
+stringification by overload.
+
+    my @table_strings = map { $_->stringify() } @tables;
 
 =item title()
 

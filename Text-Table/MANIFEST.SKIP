@@ -9,6 +9,7 @@ CVS/.*
 \.bak$
 ~$
 ^#
+.*.swp
 \.shar$
 \.tar$
 \.tgz$
