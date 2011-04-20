@@ -3,7 +3,7 @@ package Text::Table;
 use strict;
 use warnings;
 
-use Text::Aligner qw( align);
+use Text::Aligner qw(align);
 
 BEGIN {
     our $VERSION = 1.116;
