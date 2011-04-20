@@ -1,5 +1,8 @@
 # t/01_ini.t; just to load Text::Table by using it
 
+use strict;
+use warnings;
+
 $|++; 
 print "1..1
 ";
