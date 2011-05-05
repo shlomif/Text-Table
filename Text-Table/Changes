@@ -1,5 +1,7 @@
 Revision history for Perl extension Text::Table.
 
+- Convert to the ISC license.
+
 1.117 Wed Apr 20 22:26:43 IDT 2011
 - add the callback ("sub { ... }")-based ->rule() method to render each 
 section in a rule differently.

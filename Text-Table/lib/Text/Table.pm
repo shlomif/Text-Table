@@ -1077,40 +1077,14 @@ Shlomi Fish, L<http://www.shlomifish.org/> - CPAN ID: "SHLOMIF".
 
 Copyright (c) 2002 Anno Siegel. All rights reserved.
 This program is free software; you can redistribute
-it and/or modify it under the same terms as Perl itself.
+it and/or modify it under the terms of the ISC license.
+
+(This program had been licensed under the same terms as Perl itself up to
+version 1.118 released on 2011, and was relicensed by permission of its
+originator).
 
 The full text of the license can be found in the
 LICENSE file included with this module.
-
-=head2 DISCLAIMER
-
-Shlomi Fish and future maintainers hereby disclaim all explicit and implicit
-copyrights on their modifications to this code, and put their modifications
-under your option of:
-
-=over 4
-
-=item * The Public Domain (CC-Zero)
-
-L<http://creativecommons.org/choose/zero/>
-
-=item * The MIT/X11 License 
-
-L<http://www.opensource.org/licenses/mit-license.php> ; 
-L<http://en.wikipedia.org/wiki/MIT_License>
-
-=item * The Artistic License version 1.0 or 2.0
-
-L<http://www.opensource.org/licenses/artistic-license-2.0.php>
-
-=item * The GNU General Public License Version 1 or at your option any later version
-
-L<http://en.wikipedia.org/wiki/GNU_General_Public_License>
-
-=back
-
-All contributions submitted to the Text-Table github repository are assumed to 
-be under these terms. Contributions under different terms will be rejected.
 
 =head1 SEE ALSO
 
