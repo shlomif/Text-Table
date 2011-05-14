@@ -1,5 +1,10 @@
 Revision history for Perl extension Text::Table.
 
+1.119 Sat May 14 07:33:25 IDT 2011
+- Fix the Copyright to say Anno first and Shlomi Fish later.
+    - thanks to Zed Pobre.
+
+1.118
 - Convert to the ISC license.
 
 1.117 Wed Apr 20 22:26:43 IDT 2011
