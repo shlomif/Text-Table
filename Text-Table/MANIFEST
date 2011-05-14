@@ -1,5 +1,8 @@
 .gitignore
+Build
+Build.PL
 Changes
+inc/Test/Run/Builder.pm
 lib/Text/Table.pm
 LICENSE
 Makefile.PL

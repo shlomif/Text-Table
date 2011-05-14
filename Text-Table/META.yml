@@ -1,23 +1,35 @@
---- #YAML:1.0
-name:               Text-Table
-version:            1.116
-abstract:           Organize Data in Tables
+---
+abstract: 'Organize Data in Tables'
 author:
-    - Anno Siegel (siegel@zrz.tu-berlin.de)
-license:            unknown
-distribution_type:  module
-configure_requires:
-    ExtUtils::MakeMaker:  0
+  - 'Shlomi Fish <shlomif@cpan.org>'
 build_requires:
-    ExtUtils::MakeMaker:  0
-requires:
-    Test::More:     0
-    Text::Aligner:  0.05
-no_index:
-    directory:
-        - t
-        - inc
-generated_by:       ExtUtils::MakeMaker version 6.56
+  Test::More: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3617'
+keywords:
+  - art
+  - ascii
+  - asciiart
+  - borders
+  - table
+  - text
+  - unicode
+license: bsd
 meta-spec:
-    url:      http://module-build.sourceforge.net/META-spec-v1.4.html
-    version:  1.4
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Text-Table
+provides:
+  Text::Table:
+    file: lib/Text/Table.pm
+    version: 1.119
+requires:
+  Text::Aligner: 0.05
+  strict: 0
+  warnings: 0
+resources:
+  homepage: http://www.shlomifish.org/open-source/projects/docmake/
+  license: http://www.opensource.org/licenses/bsd-license.php
+  repository: https://github.com/shlomif/Text-Table
+version: 1.119
