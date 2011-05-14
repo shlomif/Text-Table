@@ -2,6 +2,8 @@ Revision history for Perl extension Text::Table.
 
 - Convert the build system to Module::Build :
     - Build.PL and inc/Test/Run/Builder.pm .
+- Made the README more meaningful and concise (instead of a copy-and-paste
+from the documentation.)
 
 1.119 Sat May 14 07:33:25 IDT 2011
 - Fix the Copyright to say Anno first and Shlomi Fish later.
