@@ -1,9 +1,11 @@
 Revision history for Perl extension Text::Table.
 
+1.120 Sat May 14 09:52:08 IDT 2011
 - Convert the build system to Module::Build :
     - Build.PL and inc/Test/Run/Builder.pm .
 - Made the README more meaningful and concise (instead of a copy-and-paste
 from the documentation.)
+- Convert t/10_Table.t to Test::More.
 
 1.119 Sat May 14 07:33:25 IDT 2011
 - Fix the Copyright to say Anno first and Shlomi Fish later.

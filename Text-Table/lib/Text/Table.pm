@@ -6,7 +6,7 @@ use warnings;
 use Text::Aligner qw(align);
 
 BEGIN {
-    our $VERSION = '1.119';
+    our $VERSION = '1.120';
 }
 
 use overload
