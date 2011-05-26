@@ -135,6 +135,18 @@ sub new
     return $tb->_entitle( @_);
 }
 
+sub _blank
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{blank} = shift;
+    }
+
+    return $self->{blank};
+}
+
 sub _cols
 {
     my $self = shift;
@@ -276,7 +288,9 @@ sub _check_index {
 sub _clear_cache { 
     my ($tb) = @_;
     
-    @{ $tb }{qw( lines blank )} = (); 
+    delete @{ $tb }{qw( lines )};
+
+    $tb->_blank($_);
 
     return;
 }
@@ -354,7 +368,7 @@ sub width {
 sub colrange {
     my ( $tb, $col_index) = @_;
 
-    return ( 0, 0) unless $tb->width; # width called, $tb->{ blank} exists now
+    return ( 0, 0) unless $tb->width; # width called, $tb->_blank() exists now
 
     $col_index ||= 0;
 
@@ -372,7 +386,7 @@ sub colrange {
         $col_index = $tb->n_cols;
     }
 
-    my @widths = map length, @{ $tb->{ blank}}, '';
+    my @widths = map { length } @{ $tb->_blank}, '';
     @widths = @widths[ 0 .. $col_index];
 
     my $width = pop @widths;
@@ -510,7 +524,7 @@ sub _build_table_lines {
 
     # deposit a blank line, pulling it off the columns.
     # *_rule() knows this is done
-    $tb->{ blank} = [ map pop @$_, @cols];
+    $tb->_blank([ map pop @$_, @cols]);
 
     return _transpose_n( $tb->height, \@cols); # bye-bye, @cols
 }
@@ -542,7 +556,7 @@ sub _rule {
     my $tb = shift;
     my $in_body = shift;
     return '' unless $tb->width; # this builds the cache, hence $tb->{ blank}
-    my $rule = $tb->_assemble_line( $in_body, $tb->{ blank});
+    my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
 
     if (ref($_[0]) eq "CODE")
     {
