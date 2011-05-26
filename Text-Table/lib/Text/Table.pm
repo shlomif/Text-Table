@@ -149,9 +149,9 @@ sub _entitle {
     push @seps, $sep;
     # build sprintf formats from separators
     my $title_form =
-        _compile_format( map defined() ? $_->{ title} : undef, @seps);
+        _compile_format( [map { defined($_) ? $_->{ title} : undef } @seps] );
     my $body_form  =
-        _compile_format( map defined() ? $_->{ body} : undef, @seps);
+        _compile_format( [map { defined($_) ? $_->{ body} : undef } @seps] );
 
     # pre_align titles
     my @titles = map [ @{ $_->{ title}}], @spec;
@@ -177,11 +177,11 @@ sub _entitle {
 
 # sprintf-format for line assembly, using separators
 sub _compile_format {
-   my @seps = @_; # mix of strings and undef (for default)
-   defined or $_ = '' for @seps[ 0, -1]; # first and last default to empty
-   defined or $_ = ' ' for @seps; # others default to single space
-   s/%/%%/g for @seps; # protect against sprintf
-   join '%s', @seps;
+   my $seps = shift; # mix of strings and undef (for default)
+   defined or $_ = '' for @$seps[ 0, -1]; # first and last default to empty
+   defined or $_ = ' ' for @$seps; # others default to single space
+   s/%/%%/g for @$seps; # protect against sprintf
+   return join '%s', @$seps;
 }
 
 # reverse format compilation (used by colrange())
@@ -189,7 +189,7 @@ sub _recover_separators {
     my $format = shift;
     my @seps = split /(?<!%)%s/, $format, -1;
     s/%%/%/g for @seps;
-    @seps;
+    return \@seps;
 }
 
 # select some columns, (optionally if in [...]), and add new separators
@@ -322,8 +322,8 @@ sub colrange {
     my $width = pop @widths;
     my $pos = 0;
     $pos += $_ for @widths;
-    my @seps = _recover_separators( $tb->{ forms}->[ 0]);
-    $pos += length for @seps[ 0 .. $col_index];
+    my $seps_aref = _recover_separators( $tb->{ forms}->[ 0]);
+    $pos += length for @$seps_aref[ 0 .. $col_index];
     return ( $pos, $width);
 }
 
