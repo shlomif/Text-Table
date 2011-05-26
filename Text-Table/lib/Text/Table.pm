@@ -159,6 +159,18 @@ sub _cols
     return $self->{cols};
 }
 
+sub _forms
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{forms} = shift;
+    }
+
+    return $self->{forms};
+}
+
 sub _spec
 {
     my $self = shift;
@@ -204,6 +216,7 @@ sub _entitle {
     my @styles = map $_->{ align_title_lines}, @spec;
     align( shift @styles, @$_) for @titles; # in-place alignment
 
+    # TODO : convert to accessors.
     # build data structure
     %$tb = (
         spec => \ @spec,                     # column spec for reuse
@@ -392,7 +405,7 @@ sub colrange {
     my $width = pop @widths;
     my $pos = sum(@widths) || 0;
 
-    my $seps_aref = _recover_separators( $tb->{ forms}->[ 0]);
+    my $seps_aref = _recover_separators( $tb->_forms->[ 0]);
 
     my $sep_sum = 0;
     foreach my $sep (@$seps_aref[ 0 .. $col_index])
@@ -548,7 +561,7 @@ sub _transpose
 sub _assemble_line {
     my $tb = shift;
     my $in_body = shift; # 0 for title, 1 for body
-    return sprintf( $tb->{ forms}->[ !!$in_body], @{ shift()}) . "\n";
+    return sprintf( $tb->_forms->[ !!$in_body], @{ shift()}) . "\n";
 }
 
 # build a rule line
