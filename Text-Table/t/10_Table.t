@@ -1,9 +1,7 @@
 use strict; 
 use warnings;
 
-use Test::More;
-my $n_tests;
-BEGIN { $n_tests = 0 }
+use Test::More tests => 166;
 
 use Text::Table;
 
@@ -12,14 +10,19 @@ print "# Version: $Text::Table::VERSION\n";
 # internal parser functions
 
 # undefined argument
-BEGIN { $n_tests += 6 }
 my $spec = Text::Table::_parse_spec();
+# TEST
 is( scalar @{ $spec->{ title}}, 0, 'Title');
+# TEST
 is( $spec->{ align}, 'auto', 'Auto');
+# TEST
 is( scalar @{ $spec->{ sample}}, 0, 'sample');
 $spec = Text::Table::_parse_spec( undef);
+# TEST
 is( scalar @{ $spec->{ title}}, 0, 'No titles');
+# TEST
 is( $spec->{ align}, 'auto', 'auto');
+# TEST
 is( scalar @{ $spec->{ sample}}, 0, 'No samples');
 
 # other functions
@@ -49,19 +52,17 @@ xxxx
 
 EOS3
 
+# TEST:$n_titles=3;
 use constant TITLES => ( T_EMPTY, T_SINGLE, T_MULTI);
 use constant TITLE_ANS => map { chomp; $_} TITLES;
+# TEST:$n_samples=3;
 use constant SAMPLES => ( S_EMPTY, S_SINGLE, S_MULTI);
 use constant SAMPLE_ANS => ( "", "00.000", "xxxx\n0.1\n");
 use constant ALIGN_ANS => ( "auto", "num(,)", "auto");
 
-BEGIN {
-    my $n_titles = @{ [ TITLES]};
-    my $n_samples = @{ [ SAMPLES]};
-    $n_tests += 2*$n_titles;
-    $n_tests += 3*$n_samples;
-    $n_tests += 2*3*$n_titles*$n_samples;
-}
+# TEST*2*$n_titles
+# TEST*3*$n_samples
+# TEST*2*3*$n_titles*$n_samples
 
 my @title_ans = TITLE_ANS;
 {
@@ -117,32 +118,36 @@ for my $title ( TITLES ) {
     }
 }
 
-# functions with empty table
-BEGIN { $n_tests += 5 }
-
 my $tb;
 $tb = Text::Table->new;
+# TEST
 is( ref $tb, 'Text::Table', "Class is OK.");
 
+# TEST
 is( $tb->n_cols, 0, "n_cols == 0");
+# TEST
 is( $tb->height, 0, "height is 0");
+# TEST
 is( $tb->width, 0, "width is 0");
+# TEST
 is( $tb->stringify, '', "stringify is empty");
 
 # empty table with non-empty data array (auto-initialisation)
-BEGIN { $n_tests += 4 }
 $tb->load(
 '1 2 3',
 [4, 5, 6],
 '7 8',
 );
+# TEST
 is( $tb->n_cols, 3, "n_cols");
+# TEST
 is( $tb->height, 3, "height");
+# TEST
 is( $tb->width, 5, "width");
+# TEST
 is( $tb->stringify, "1 2 3\n4 5 6\n7 8  \n", "stringify is OK.");
 
 # run this again with undefined $/, see if there's a warning
-BEGIN { $n_tests += 1 }
 {
     local $/;
     my $warncount = 0;
@@ -156,59 +161,76 @@ BEGIN { $n_tests += 1 }
     '7 8',
     );
 
+    # TEST
     is ($warncount, 0, "Warn count");
 }
 
 # single title-less column
-BEGIN { $n_tests += 4 }
 $tb = Text::Table->new( '');
+# TEST
 is( $tb->n_cols, 1, "n_cols");
+# TEST
 is( $tb->height, 0, "height");
+# TEST
 is( $tb->width, 0, "width");
+# TEST
 is( $tb->stringify, '', "stringify");
 
 # same with some data (more than needed, actually)
-BEGIN { $n_tests += 8 }
 $tb->load(
    "1 2 3",
    [4, 5, 6],
    [7, 8],
 );
+# TEST
 is( $tb->n_cols, 1, "n_cols == 1");
+# TEST
 is( $tb->height, 3, "height == 3");
+# TEST
 is( $tb->width, 1, "width == 1");
+# TEST
 is( $tb->stringify, "1\n4\n7\n", "stringify");
 
 $tb->clear;
+# TEST
 is( $tb->n_cols, 1, "n_cols after clear");
+# TEST
 is( $tb->height, 0, "height after clear");
+# TEST
 is( $tb->width, 0, "width after clear");
+# TEST
 is( $tb->stringify, '', "stringify after clear");
 
 # do samples work?
-BEGIN { $n_tests += 5 }
 $tb = Text::Table->new( { sample => 'xxxx'});
 $tb->load( '0');
+# TEST
 is( $tb->width, 4, 'width samples');
+# TEST
 is( $tb->height, 1, 'height == 1');
 $tb->load( '12345');
+# TEST
 is( $tb->width, 5, 'width == 5');
+# TEST
 is( $tb->height, 2, 'height == 2');
+
 # samples should be considered in title alignment even with no data
 my $tit;
 $tb = Text::Table->new( { title => 'x', sample => 'xxx'});
 chomp( $tit = $tb->title( 0));
+# TEST
 is( $tit, 'x  ' , 'title');
 
 # load without data
 $tb = Text::Table->new();
-BEGIN { $n_tests += 2 }
 {
     my $warncount = 0;
     local $SIG{__WARN__} = sub { ++ $warncount };
     $tb->load();
+    # TEST
     is ($warncount, 0, 'no warnings');
     $tb->load([]);
+    # TEST
     is ($warncount, 0, 'no warnings');
 }
 
@@ -237,146 +259,228 @@ frosty    16  9999.9
 EOT
 use constant TYP_ANS => TYP_TITLE_ANS . TYP_BODY_ANS;
 
-BEGIN { $n_tests += 3 }
 $tb = Text::Table->new( TYP_TITLE);
+# TEST
 is( $tb->n_cols, 4, 'n_cols');
+# TEST
 is( $tb->height, 2, 'height');
+# TEST
 is( $tb->width, 24, 'width');
 
-BEGIN { $n_tests += 4 }
 $tb->load( TYP_DATA);
+# TEST
 is( $tb->n_cols, 4, 'n_cols after TYP_DATA');
+# TEST
 is( $tb->height, 6, 'height after TYP_DATA');
+# TEST
 is( $tb->width, 30, 'width after TYP_DATA');
+# TEST
 is( $tb->stringify, TYP_ANS, 'stringify after TYP_ANS');
 
-BEGIN { $n_tests += 3 }
 $tb->clear;
+# TEST
 is( $tb->n_cols, 4, 'n_cols after clear');
+# TEST
 is( $tb->height, 2, 'height after clear');
+# TEST
 is( $tb->width, 24, 'width after clear');
 
 # access parts of table
-BEGIN { $n_tests += 8 }
 $tb->load( TYP_DATA);
 
+# TEST
 is( join( '', $tb->title), TYP_TITLE_ANS, 'TYP_TITLE_ANS');
+# TEST
 is( join( '', $tb->body), TYP_BODY_ANS, 'TYP_BODY_ANS');
 my ( $first_title, $last_title) = ( TYP_TITLE_ANS =~ /(.*\n)/g)[ 0, -1];
 my ( $first_body, $last_body) = ( TYP_BODY_ANS =~ /(.*\n)/g)[ 0, -1];
+# TEST
 is( ($tb->title( 0))[ 0], $first_title, 'first_title');
+# TEST
 is( ($tb->body( 0))[ 0], $first_body, 'first_body');
+# TEST
 is( ($tb->table( 0))[ 0], $first_title, 'first_title');
+# TEST
 is( ($tb->title( -1))[ 0], $last_title, 'last_title');
+# TEST
 is( ($tb->body( -1))[ 0], $last_body, 'last_body');
+# TEST
 is( ($tb->table( -1))[ 0], $last_body, 'last_body');
 
 ### separators and rules
-BEGIN { $n_tests += 7 }
 $tb = Text::Table->new( 'aaa', \' x ', 'bbb');
+# TEST
 is( $tb->rule,            "    x    \n", 'rule 1');
+# TEST
 is( $tb->rule( '='     ), "====x====\n", 'rule 2');
+# TEST
 is( $tb->rule( '=', '+'), "====+====\n", 'rule 3');
 
 $tb->add( 'tttttt', '');
+
+# TEST
 is( $tb->rule, "       x    \n", 'rule 4');
 
 # multiple separators
 $tb = Text::Table->new( 'aaa', \' xxxxx ', \' y ', 'bbb');
+# TEST
 is( $tb->rule, "    y    \n", 'rule 5');
 
 # different separators in head and body
 $tb = Text::Table->new( 'aaa', \"x\ny", 'bbb');
+
+# TEST
 is( $tb->rule, "   x   \n", 'rule 6');
+
+# TEST
 is( $tb->body_rule, "   y   \n", 'rule 7');
 
 ### colrange
-BEGIN { $n_tests += 16 }
 $tb = Text::Table->new( 'aaa', \"|", 'bbb');
+
+# TEST
 is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
+
+# TEST
 is( ($tb->colrange( 0))[ 1], 3, 'colrange 2');
+
+# TEST
 is( ($tb->colrange( 1))[ 0], 4, 'colrange 3');
+
+# TEST
 is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
+
+# TEST
 is( ($tb->colrange( 2))[ 0], 7, 'colrange 5');
+
+# TEST
 is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
+
+# TEST
 is( ($tb->colrange( 9))[ 0], 7, 'colrange 7');
+
+# TEST
 is( ($tb->colrange( 9))[ 1], 0, 'colrange 8');
+
+# TEST
 is( ($tb->colrange( -1))[ 0], 4, 'colrange 9');
+
+# TEST
 is( ($tb->colrange( -1))[ 1], 3, 'colrange 10');
 
 $tb->add( 'xxxxxx', 'yy');
+
+# TEST
 is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
+
+# TEST
 is( ($tb->colrange( 0))[ 1], 6, 'colrange 2');
+
+# TEST
 is( ($tb->colrange( 1))[ 0], 7, 'colrange 3');
+
+# TEST
 is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
+
+# TEST
 is( ($tb->colrange( 2))[ 0], 10, 'colrange 5');
+
+# TEST
 is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
 
 # body-title alignment
-BEGIN { $n_tests += 4 }
 
 $tb = Text::Table->new( { title => 'x', align_title => 'right' });
 $tb->add( 'xxx');
 chomp( $tit = $tb->title( 0));
+
+# TEST
 is( $tit, '  x', 'title');
 
 $tb = Text::Table->new( { title => 'x', align_title => 'center' });
 $tb->add( 'xxx');
 chomp( $tit = $tb->title( 0));
+
+# TEST
 is( $tit, ' x ', 'title 2');
 
 $tb = Text::Table->new( { title => 'x', align_title => 'left' });
 $tb->add( 'xxx');
 chomp( $tit = $tb->title( 0));
+
+# TEST
 is( $tit, 'x  ', 'title 3');
 
 $tb = Text::Table->new( { title => 'x' }); # default?
 $tb->add( 'xxx');
 chomp( $tit = $tb->title( 0));
-is( $tit, 'x  ', 'title 4');
 
-# title-internal alignment
-BEGIN { $n_tests += 5 }
+# TEST
+is( $tit, 'x  ', 'title 4');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'right'});
 chomp( ( $tit) = $tb->title); # first line
+
+# TEST
 is( $tit, '  x', 'title 5');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'center'});
 chomp( ( $tit) = $tb->title); # first line
+
+# TEST
 is( $tit, ' x ', 'title 6');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'left'});
 chomp( ( $tit) = $tb->title); # first line
+
+# TEST
 is( $tit, 'x  ', 'title 7');
 
 # default?
 $tb = Text::Table->new( { title => "x\nxxx"});
 chomp( ( $tit) = $tb->title); # first line
+
+# TEST
 is( $tit, 'x  ', 'title 8');
 
 # default propagation from 'align_title'
 $tb = Text::Table->new( { title => "x\nxxx", align_title => 'right'});
 chomp( ( $tit) = $tb->title);
+
+# TEST
 is( $tit, '  x', 'title 9');
 
 ### column selection
-BEGIN { $n_tests += 5 }
 
 $tb = Text::Table->new( '', '');
 $tb->load( [ 0, 1], [ undef, 2], [ '', 3]);
 
+
+# TEST
 is( $tb->select(   0,    1 )->n_cols, 2, 'n_cols 1');
+
+# TEST
 is( $tb->select( [ 0],   1 )->n_cols, 1, 'n_cols 2');
+
+# TEST
 is( $tb->select(   0,  [ 1])->n_cols, 2, 'n_cols 3');
+
+# TEST
 is( $tb->select( [ 0], [ 1])->n_cols, 1, 'n_cols 4');
+
+# TEST
 is( $tb->select( [ 0,    1])->n_cols, 0, 'n_cols 5');
 
 # multiple selection
-BEGIN { $n_tests += 3 }
 my $mult = $tb->select( 0, 1, 0, 1);
+
+# TEST
 is( $mult->n_cols, 4, 'n_cols 4');
+
+# TEST
 is( $mult->height, 3, 'height 3');
+
+# TEST
 is( $mult->stringify, <<EOT, 'stringify');
 0 1 0 1
   2   2
@@ -384,19 +488,21 @@ is( $mult->stringify, <<EOT, 'stringify');
 EOT
 
 # overloading
-BEGIN { $n_tests += 1 }
 $tb = Text::Table->new( TYP_TITLE);
 $tb->load( TYP_DATA);
+
+# TEST
 is( "$tb", TYP_ANS, 'TYP_ANS');
 
 # multi-line rows
-BEGIN { $n_tests += 1 }
 $tb = Text::Table->new( qw( A B C ) );
 $tb->load( [ "1", "2", "3" ],
            [ "a\nb", "c", "d" ],
            [ "e", "f\ng", "h" ],
            [ "i", "j", "k\nl" ],
            [ "m", "n", "o" ] );
+
+# TEST
 is( "$tb", <<EOT, "Table after spaces");
 A B C
 1 2 3
@@ -410,17 +516,17 @@ m n o
 EOT
 
 # Chained ->load call
-BEGIN { $n_tests += 1 }
+
+# TEST
 is( "" . Text::Table
              -> new( TYP_TITLE )
              -> load( TYP_DATA ),
     TYP_ANS, "All in one" );
 
 # Chained ->add call
-BEGIN { $n_tests += 1 }
+
+# TEST
 is( "" . Text::Table
              -> new( "x" x 10 )
              -> add( "y" x 10 ),
     "x" x 10 . "\n" . "y" x 10 . "\n", "All in one - 2");
-
-BEGIN { plan tests => $n_tests }

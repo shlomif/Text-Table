@@ -1,5 +1,7 @@
 Revision history for Perl extension Text::Table.
 
+- Convert t/10_Table.t to Test-Count.
+
 1.120 Sat May 14 09:52:08 IDT 2011
 - Convert the build system to Module::Build :
     - Build.PL and inc/Test/Run/Builder.pm .
