@@ -332,99 +332,109 @@ use constant TYP_ANS => TYP_TITLE_ANS . TYP_BODY_ANS;
 
 }
 
-### separators and rules
-my $tb = Text::Table->new( 'aaa', \' x ', 'bbb');
-# TEST
-is( $tb->rule,            "    x    \n", 'rule 1');
-# TEST
-is( $tb->rule( '='     ), "====x====\n", 'rule 2');
-# TEST
-is( $tb->rule( '=', '+'), "====+====\n", 'rule 3');
+{
+    ### separators and rules
+    my $tb = Text::Table->new( 'aaa', \' x ', 'bbb');
+    # TEST
+    is( $tb->rule,            "    x    \n", 'rule 1');
+    # TEST
+    is( $tb->rule( '='     ), "====x====\n", 'rule 2');
+    # TEST
+    is( $tb->rule( '=', '+'), "====+====\n", 'rule 3');
 
-$tb->add( 'tttttt', '');
+    $tb->add( 'tttttt', '');
 
-# TEST
-is( $tb->rule, "       x    \n", 'rule 4');
+    # TEST
+    is( $tb->rule, "       x    \n", 'rule 4');
+}
 
-# multiple separators
-$tb = Text::Table->new( 'aaa', \' xxxxx ', \' y ', 'bbb');
-# TEST
-is( $tb->rule, "    y    \n", 'rule 5');
+{
+    # multiple separators
+    my $tb = Text::Table->new( 'aaa', \' xxxxx ', \' y ', 'bbb');
+    # TEST
+    is( $tb->rule, "    y    \n", 'rule 5');
+}
 
-# different separators in head and body
-$tb = Text::Table->new( 'aaa', \"x\ny", 'bbb');
+{
+    # different separators in head and body
+    my $tb = Text::Table->new( 'aaa', \"x\ny", 'bbb');
 
-# TEST
-is( $tb->rule, "   x   \n", 'rule 6');
+    # TEST
+    is( $tb->rule, "   x   \n", 'rule 6');
 
-# TEST
-is( $tb->body_rule, "   y   \n", 'rule 7');
+    # TEST
+    is( $tb->body_rule, "   y   \n", 'rule 7');
+}
 
-### colrange
-$tb = Text::Table->new( 'aaa', \"|", 'bbb');
+{
+    ### colrange
+    my $tb = Text::Table->new( 'aaa', \"|", 'bbb');
 
-# TEST
-is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
+    # TEST
+    is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
 
-# TEST
-is( ($tb->colrange( 0))[ 1], 3, 'colrange 2');
+    # TEST
+    is( ($tb->colrange( 0))[ 1], 3, 'colrange 2');
 
-# TEST
-is( ($tb->colrange( 1))[ 0], 4, 'colrange 3');
+    # TEST
+    is( ($tb->colrange( 1))[ 0], 4, 'colrange 3');
 
-# TEST
-is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
+    # TEST
+    is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
 
-# TEST
-is( ($tb->colrange( 2))[ 0], 7, 'colrange 5');
+    # TEST
+    is( ($tb->colrange( 2))[ 0], 7, 'colrange 5');
 
-# TEST
-is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
+    # TEST
+    is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
 
-# TEST
-is( ($tb->colrange( 9))[ 0], 7, 'colrange 7');
+    # TEST
+    is( ($tb->colrange( 9))[ 0], 7, 'colrange 7');
 
-# TEST
-is( ($tb->colrange( 9))[ 1], 0, 'colrange 8');
+    # TEST
+    is( ($tb->colrange( 9))[ 1], 0, 'colrange 8');
 
-# TEST
-is( ($tb->colrange( -1))[ 0], 4, 'colrange 9');
+    # TEST
+    is( ($tb->colrange( -1))[ 0], 4, 'colrange 9');
 
-# TEST
-is( ($tb->colrange( -1))[ 1], 3, 'colrange 10');
+    # TEST
+    is( ($tb->colrange( -1))[ 1], 3, 'colrange 10');
 
-$tb->add( 'xxxxxx', 'yy');
+    $tb->add( 'xxxxxx', 'yy');
 
-# TEST
-is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
+    # TEST
+    is( ($tb->colrange( 0))[ 0], 0, 'colrange 1');
 
-# TEST
-is( ($tb->colrange( 0))[ 1], 6, 'colrange 2');
+    # TEST
+    is( ($tb->colrange( 0))[ 1], 6, 'colrange 2');
 
-# TEST
-is( ($tb->colrange( 1))[ 0], 7, 'colrange 3');
+    # TEST
+    is( ($tb->colrange( 1))[ 0], 7, 'colrange 3');
 
-# TEST
-is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
+    # TEST
+    is( ($tb->colrange( 1))[ 1], 3, 'colrange 4');
 
-# TEST
-is( ($tb->colrange( 2))[ 0], 10, 'colrange 5');
+    # TEST
+    is( ($tb->colrange( 2))[ 0], 10, 'colrange 5');
 
-# TEST
-is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
+    # TEST
+    is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
+}
 
 # body-title alignment
 
 my $title;
 
-$tb = Text::Table->new( { title => 'x', align_title => 'right' });
-$tb->add( 'xxx');
-chomp( $title = $tb->title( 0));
+{
+    my $tb = Text::Table->new( { title => 'x', align_title => 'right' });
+    $tb->add( 'xxx');
+    chomp( $title = $tb->title( 0));
 
-# TEST
-is( $title, '  x', 'title');
+    # TEST
+    is( $title, '  x', 'title');
+}
 
-$tb = Text::Table->new( { title => 'x', align_title => 'center' });
+my $tb = Text::Table->new( { title => 'x', align_title => 'center' });
 $tb->add( 'xxx');
 chomp( $title = $tb->title( 0));
 
