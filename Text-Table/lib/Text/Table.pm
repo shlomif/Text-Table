@@ -506,14 +506,7 @@ sub _table_portion
 
     my $lines_aref = $tb->_table_portion_as_aref(@_);
 
-    if (wantarray)
-    {
-        return @$lines_aref;
-    }
-    else
-    {
-        return join '', @$lines_aref;
-    }
+    return (wantarray ? @$lines_aref : join('', @$lines_aref));
 }
 
 sub _limit_range
