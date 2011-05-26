@@ -33,6 +33,20 @@ sub _is_sep {
     );
 }
 
+sub _get_sep_title_body
+{
+    my $sep = shift;
+
+    if ( ref($sep) eq 'HASH' )
+    {
+        return @{ $sep }{ qw( title body)};
+    }
+    else
+    {
+        return split /\n/, ${$sep}, -1;
+    }
+}
+
 sub _parse_sep {
     my $sep = shift;
 
@@ -41,16 +55,7 @@ sub _parse_sep {
         $sep = '';
     }
 
-    my ( $title, $body);
-
-    if ( ref($sep) eq 'HASH' )
-    {
-        ($title, $body) = @{ $sep }{ qw( title body)};
-    }
-    else
-    {
-        ($title, $body) = split /\n/, ${$sep}, -1;
-    }
+    my ($title, $body) = _get_sep_title_body($sep);
 
     if (!defined($body))
     {
