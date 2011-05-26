@@ -65,19 +65,24 @@ sub _parse_sep {
 }
 
 sub _parse_spec {
-    local $_ = shift;
-    defined $_ or $_ = '';
+    my $spec = shift;
+
+    if (!defined($spec))
+    {
+        $spec = '';
+    }
+
     my $alispec = qr/^ *(?:left|center|right|num|point|auto)/;
     my ( $title, $align, $align_title, $align_title_lines, $sample);
     if ( ref eq 'HASH' ) {
         ( $title, $align, $align_title, $align_title_lines, $sample) =
-            @{ $_}{ qw( title align align_title align_title_lines sample)};
+            @{$spec}{qw( title align align_title align_title_lines sample )};
     } else {
         my $alispec = qr/&(.*)/;
-        if ( $_ =~ $alispec ) {
-            ( $title, $align, $sample) = /(.*)^$alispec\n?(.*)/sm;
+        if ( $spec =~ $alispec ) {
+            ($title, $align, $sample) = ($spec =~ /(.*)^$alispec\n?(.*)/sm);
         } else {
-            $title = $_;
+            $title = $spec;
         }
         defined and chomp for $title, $sample;
     }
