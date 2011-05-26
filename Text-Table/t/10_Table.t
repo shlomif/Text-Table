@@ -178,44 +178,46 @@ for my $title ( TITLES ) {
     is ($warncount, 0, "Warn count");
 }
 
-# single title-less column
-my $tb = Text::Table->new( '');
-# TEST
-is( $tb->n_cols, 1, "n_cols");
-# TEST
-is( $tb->height, 0, "height");
-# TEST
-is( $tb->width, 0, "width");
-# TEST
-is( $tb->stringify, '', "stringify");
+{
+    # single title-less column
+    my $tb = Text::Table->new( '');
+    # TEST
+    is( $tb->n_cols, 1, "n_cols");
+    # TEST
+    is( $tb->height, 0, "height");
+    # TEST
+    is( $tb->width, 0, "width");
+    # TEST
+    is( $tb->stringify, '', "stringify");
 
-# same with some data (more than needed, actually)
-$tb->load(
-   "1 2 3",
-   [4, 5, 6],
-   [7, 8],
-);
-# TEST
-is( $tb->n_cols, 1, "n_cols == 1");
-# TEST
-is( $tb->height, 3, "height == 3");
-# TEST
-is( $tb->width, 1, "width == 1");
-# TEST
-is( $tb->stringify, "1\n4\n7\n", "stringify");
+    # same with some data (more than needed, actually)
+    $tb->load(
+       "1 2 3",
+       [4, 5, 6],
+       [7, 8],
+    );
+    # TEST
+    is( $tb->n_cols, 1, "n_cols == 1");
+    # TEST
+    is( $tb->height, 3, "height == 3");
+    # TEST
+    is( $tb->width, 1, "width == 1");
+    # TEST
+    is( $tb->stringify, "1\n4\n7\n", "stringify");
 
-$tb->clear;
-# TEST
-is( $tb->n_cols, 1, "n_cols after clear");
-# TEST
-is( $tb->height, 0, "height after clear");
-# TEST
-is( $tb->width, 0, "width after clear");
-# TEST
-is( $tb->stringify, '', "stringify after clear");
+    $tb->clear;
+    # TEST
+    is( $tb->n_cols, 1, "n_cols after clear");
+    # TEST
+    is( $tb->height, 0, "height after clear");
+    # TEST
+    is( $tb->width, 0, "width after clear");
+    # TEST
+    is( $tb->stringify, '', "stringify after clear");
+}
 
 # do samples work?
-$tb = Text::Table->new( { sample => 'xxxx'});
+my $tb = Text::Table->new( { sample => 'xxxx'});
 $tb->load( '0');
 # TEST
 is( $tb->width, 4, 'width samples');
