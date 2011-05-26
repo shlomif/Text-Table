@@ -254,9 +254,19 @@ sub _entitle {
 # sprintf-format for line assembly, using separators
 sub _compile_format {
    my $seps = shift; # mix of strings and undef (for default)
-   defined or $_ = '' for @$seps[ 0, -1]; # first and last default to empty
-   defined or $_ = ' ' for @$seps; # others default to single space
-   s/%/%%/g for @$seps; # protect against sprintf
+
+   for my $idx (0 .. $#$seps)
+   {
+        if (!defined($seps->[$idx]))
+        {
+            $seps->[$idx] = ($idx == 0 or $idx == $#$seps) ? '' : q{ };
+        }
+        else
+        {
+            # protect against sprintf
+            $seps->[$idx] =~ s/%/%%/g;
+        }
+   }
    return join '%s', @$seps;
 }
 
