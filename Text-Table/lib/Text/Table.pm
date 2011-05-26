@@ -446,7 +446,7 @@ sub _build_table_lines {
     my $tb = shift;
 
     # copy data columns, replacing undef with ''
-    my @cols = map [ map defined() ? $_ : '', @$_], @{ $tb->{ cols}};
+    my @cols = map [ map { defined($_) ? $_ : ''} @$_], @{ $tb->{cols} };
 
     # add set of empty strings for blank line (needed to build horizontal rules)
     push @$_, '' for @cols;
