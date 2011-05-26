@@ -237,7 +237,13 @@ sub _check_index {
 
 ### data entry
 
-sub _clear_cache { @{ $_[ 0]}{ qw( lines blank)} = (); $_[ 0] }
+sub _clear_cache { 
+    my ($tb) = @_;
+    
+    @{ $tb }{qw( lines blank )} = (); 
+
+    return;
+}
 
 # add one data line or split the line into follow-up lines
 sub add {
@@ -246,14 +252,19 @@ sub add {
 
     $tb->_add( @$_) for _transpose( map [ defined() ? split( /\n/ ) : '' ], @_);
     $tb->_clear_cache;
+
+    return $tb;
 }   
 
 # add one data line
 sub _add {
     my $tb = shift;
+
     push @$_, shift for @{ $tb->{ cols}};
+
     $tb->_clear_cache;
-    $tb;
+
+    return $tb;
 }
 
 # add one or more data lines
@@ -268,9 +279,12 @@ sub load {
 
 sub clear {
     my $tb = shift;
+
     $_ = [] for @{ $tb->{ cols}};
+
     $tb->_clear_cache;
-    $tb;
+
+    return $tb;
 }
 
 ### access to output area
