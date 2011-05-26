@@ -135,6 +135,18 @@ sub new
     return $tb->_entitle( @_);
 }
 
+sub _cols
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{cols} = shift;
+    }
+
+    return $self->{cols};
+}
+
 sub _entitle {
     my $tb = shift; # will be completely overwritten
     # find active separators and, well separate them from col specs.
@@ -210,7 +222,7 @@ sub select {
     ! _is_sep( $_) and $_ = $tb->{ spec}->[ $_] for @args;
     my $sub = ref( $tb)->new( @args);
     # sneak in data columns
-    @{ $sub->{ cols}} = map [ @$_ ], @{ $tb->{ cols}}[ @sel];
+    @{ $sub->{ cols}} = map { [ @$_ ] } @{ $tb->_cols}[ @sel];
     $sub;
 }
 
@@ -222,7 +234,7 @@ sub _select_group {
     for ( @$group ) {
         next if _is_sep( $_);
         $tb->_check_index( $_);
-        return @$group if grep $_, @{ $tb->{ cols}->[ $_]};
+        return @$group if grep $_, @{ $tb->_cols->[ $_]};
         return; # no more tries after non-sep was found
     }
     return; # no column index in group, no select
@@ -266,7 +278,7 @@ sub add {
 sub _add {
     my $tb = shift;
 
-    push @$_, shift for @{ $tb->{ cols}};
+    push @$_, shift for @{ $tb->_cols};
 
     $tb->_clear_cache;
 
@@ -286,7 +298,7 @@ sub load {
 sub clear {
     my $tb = shift;
 
-    $_ = [] for @{ $tb->{ cols}};
+    $_ = [] for @{ $tb->_cols};
 
     $tb->_clear_cache;
 
@@ -304,7 +316,12 @@ sub n_cols { scalar @{ $_[0]->{ spec}} }
 sub title_height { $_[ 0]->n_cols and scalar @{ $_[ 0]->{ titles}->[ 0]} }
 
 # number of data lines
-sub body_height { $_[ 0]->n_cols and scalar @{ $_[ 0]->{ cols}->[ 0]} }
+sub body_height
+{ 
+    my ($tb) = @_;
+
+    return ($tb->n_cols && scalar @{ $tb->_cols->[0] });
+}
 
 # total height
 sub table_height { $_[ 0]->title_height + $_[ 0]->body_height }
@@ -446,7 +463,7 @@ sub _build_table_lines {
     my $tb = shift;
 
     # copy data columns, replacing undef with ''
-    my @cols = map [ map { defined($_) ? $_ : ''} @$_], @{ $tb->{cols} };
+    my @cols = map [ map { defined($_) ? $_ : ''} @$_], @{ $tb->_cols() };
 
     # add set of empty strings for blank line (needed to build horizontal rules)
     push @$_, '' for @cols;
