@@ -425,37 +425,43 @@ use constant TYP_ANS => TYP_TITLE_ANS . TYP_BODY_ANS;
 
 my $title;
 
+# TEST:$check_title=0;
+sub _check_title_0
 {
-    my $tb = Text::Table->new( { title => 'x', align_title => 'right' });
-    $tb->add( 'xxx');
-    chomp( $title = $tb->title( 0));
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
+    my ($args, $blurb) = @_;
 
-    # TEST
-    is( $title, '  x', 'title');
+    my $tb = Text::Table->new(
+        { 
+            title => 'x', 
+            (exists($args->{align_title})
+                ? (align_title => $args->{align_title},) 
+                : ()
+            ),
+        });
+    $tb->add( 'xxx');
+
+    my $title = $tb->title( 0);
+
+    chomp($title);
+
+    # TEST:$check_title++;
+    is( $title, $args->{result}, "$blurb - title");
 }
 
-my $tb = Text::Table->new( { title => 'x', align_title => 'center' });
-$tb->add( 'xxx');
-chomp( $title = $tb->title( 0));
+# TEST*$check_title
+_check_title_0({align_title => 'right', result => '  x'}, "align = right");
 
-# TEST
-is( $title, ' x ', 'title 2');
+# TEST*$check_title
+_check_title_0({align_title => 'center', result => ' x '}, "align = center");
 
-$tb = Text::Table->new( { title => 'x', align_title => 'left' });
-$tb->add( 'xxx');
-chomp( $title = $tb->title( 0));
+# TEST*$check_title
+_check_title_0({align_title => 'left', result => 'x  '}, "align = left");
 
-# TEST
-is( $title, 'x  ', 'title 3');
+# TEST*$check_title
+_check_title_0({result => 'x  '}, "default alignment");
 
-$tb = Text::Table->new( { title => 'x' }); # default?
-$tb->add( 'xxx');
-chomp( $title = $tb->title( 0));
-
-# TEST
-is( $title, 'x  ', 'title 4');
-
-$tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'right'});
+my $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'right'});
 chomp( ( $title) = $tb->title); # first line
 
 # TEST
