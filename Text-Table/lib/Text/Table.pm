@@ -452,8 +452,11 @@ sub _build_table_lines {
     push @$_, '' for @cols;
 
     # add samples for minimum alignment
-    my @samples = map $_->{ sample}, @{ $tb->{ spec}};
-    push @$_, @{ shift @samples} for @cols;
+    my @samples = map { $_->{ sample} } @{ $tb->{ spec}};
+    foreach my $col (@cols)
+    {
+        push @{$col}, @{ shift(@samples) };
+    }
 
     # align to style
     my @styles = map $_->{ align}, @{ $tb->{ spec}};
