@@ -147,6 +147,18 @@ sub _cols
     return $self->{cols};
 }
 
+sub _spec
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{spec} = shift;
+    }
+
+    return $self->{spec};
+}
+
 sub _entitle {
     my $tb = shift; # will be completely overwritten
     # find active separators and, well separate them from col specs.
@@ -219,7 +231,13 @@ sub select {
     # _select_group, but not all)
     my @sel = map $tb->_check_index( $_), grep !_is_sep( $_), @args;
     # replace indices with column spec to create subtable
-    ! _is_sep( $_) and $_ = $tb->{ spec}->[ $_] for @args;
+    for my $arg (@args)
+    {
+        if (! _is_sep($arg))
+        {
+            $arg = $tb->_spec->[ $arg];
+        }
+    }
     my $sub = ref( $tb)->new( @args);
     # sneak in data columns
     @{ $sub->{ cols}} = map { [ @$_ ] } @{ $tb->_cols}[ @sel];
@@ -469,14 +487,14 @@ sub _build_table_lines {
     push @$_, '' for @cols;
 
     # add samples for minimum alignment
-    my @samples = map { $_->{ sample} } @{ $tb->{ spec}};
+    my @samples = map { $_->{ sample} } @{ $tb->_spec };
     foreach my $col (@cols)
     {
         push @{$col}, @{ shift(@samples) };
     }
 
     # align to style
-    my @styles = map $_->{ align}, @{ $tb->{ spec}};
+    my @styles = map { $_->{ align} } @{ $tb->_spec };
     align( shift @styles, @$_) for @cols;
     # trim off samples, but leave blank line
     splice @$_, 1 + $tb->body_height for @cols; # + 1 for blank line (brittle)
@@ -487,7 +505,7 @@ sub _build_table_lines {
 
     # align title and body portions of columns
     # blank line will be there even with no data
-    @styles = map $_->{ align_title}, @{ $tb->{ spec}};
+    @styles = map { $_->{ align_title} } @{ $tb->_spec };
     align( shift @styles, @$_) for @cols; # in-place alignment
 
     # deposit a blank line, pulling it off the columns.
