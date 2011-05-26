@@ -216,40 +216,44 @@ for my $title ( TITLES ) {
     is( $tb->stringify, '', "stringify after clear");
 }
 
-# do samples work?
-my $tb = Text::Table->new( { sample => 'xxxx'});
-$tb->load( '0');
-# TEST
-is( $tb->width, 4, 'width samples');
-# TEST
-is( $tb->height, 1, 'height == 1');
-$tb->load( '12345');
-# TEST
-is( $tb->width, 5, 'width == 5');
-# TEST
-is( $tb->height, 2, 'height == 2');
+{
+    # do samples work?
+    my $tb = Text::Table->new( { sample => 'xxxx'});
+    $tb->load( '0');
+    # TEST
+    is( $tb->width, 4, 'width samples');
+    # TEST
+    is( $tb->height, 1, 'height == 1');
+    $tb->load( '12345');
+    # TEST
+    is( $tb->width, 5, 'width == 5');
+    # TEST
+    is( $tb->height, 2, 'height == 2');
+}
 
 # samples should be considered in title alignment even with no data
 {
     my $title;
-    $tb = Text::Table->new( { title => 'x', sample => 'xxx'});
+    my $tb = Text::Table->new( { title => 'x', sample => 'xxx'});
     chomp( $title = $tb->title( 0));
 
     # TEST
     is( $title, 'x  ' , "samples should be in text aling - title");
 }
 
-# load without data
-$tb = Text::Table->new();
 {
-    my $warncount = 0;
-    local $SIG{__WARN__} = sub { ++ $warncount };
-    $tb->load();
-    # TEST
-    is ($warncount, 0, 'no warnings');
-    $tb->load([]);
-    # TEST
-    is ($warncount, 0, 'no warnings');
+    # load without data
+    my $tb = Text::Table->new();
+    {
+        my $warncount = 0;
+        local $SIG{__WARN__} = sub { ++ $warncount };
+        $tb->load();
+        # TEST
+        is ($warncount, 0, 'no warnings');
+        $tb->load([]);
+        # TEST
+        is ($warncount, 0, 'no warnings');
+    }
 }
 
 # overall functional check with typical table
@@ -277,56 +281,59 @@ frosty    16  9999.9
 EOT
 use constant TYP_ANS => TYP_TITLE_ANS . TYP_BODY_ANS;
 
-$tb = Text::Table->new( TYP_TITLE);
-# TEST
-is( $tb->n_cols, 4, 'n_cols');
-# TEST
-is( $tb->height, 2, 'height');
-# TEST
-is( $tb->width, 24, 'width');
+{
+    my $tb = Text::Table->new( TYP_TITLE);
+    # TEST
+    is( $tb->n_cols, 4, 'n_cols');
+    # TEST
+    is( $tb->height, 2, 'height');
+    # TEST
+    is( $tb->width, 24, 'width');
 
-$tb->load( TYP_DATA);
-# TEST
-is( $tb->n_cols, 4, 'n_cols after TYP_DATA');
-# TEST
-is( $tb->height, 6, 'height after TYP_DATA');
-# TEST
-is( $tb->width, 30, 'width after TYP_DATA');
-# TEST
-is( $tb->stringify, TYP_ANS, 'stringify after TYP_ANS');
+    $tb->load( TYP_DATA);
+    # TEST
+    is( $tb->n_cols, 4, 'n_cols after TYP_DATA');
+    # TEST
+    is( $tb->height, 6, 'height after TYP_DATA');
+    # TEST
+    is( $tb->width, 30, 'width after TYP_DATA');
+    # TEST
+    is( $tb->stringify, TYP_ANS, 'stringify after TYP_ANS');
 
-$tb->clear;
-# TEST
-is( $tb->n_cols, 4, 'n_cols after clear');
-# TEST
-is( $tb->height, 2, 'height after clear');
-# TEST
-is( $tb->width, 24, 'width after clear');
+    $tb->clear;
+    # TEST
+    is( $tb->n_cols, 4, 'n_cols after clear');
+    # TEST
+    is( $tb->height, 2, 'height after clear');
+    # TEST
+    is( $tb->width, 24, 'width after clear');
 
-# access parts of table
-$tb->load( TYP_DATA);
+    # access parts of table
+    $tb->load( TYP_DATA);
 
-# TEST
-is( join( '', $tb->title), TYP_TITLE_ANS, 'TYP_TITLE_ANS');
-# TEST
-is( join( '', $tb->body), TYP_BODY_ANS, 'TYP_BODY_ANS');
-my ( $first_title, $last_title) = ( TYP_TITLE_ANS =~ /(.*\n)/g)[ 0, -1];
-my ( $first_body, $last_body) = ( TYP_BODY_ANS =~ /(.*\n)/g)[ 0, -1];
-# TEST
-is( ($tb->title( 0))[ 0], $first_title, 'first_title');
-# TEST
-is( ($tb->body( 0))[ 0], $first_body, 'first_body');
-# TEST
-is( ($tb->table( 0))[ 0], $first_title, 'first_title');
-# TEST
-is( ($tb->title( -1))[ 0], $last_title, 'last_title');
-# TEST
-is( ($tb->body( -1))[ 0], $last_body, 'last_body');
-# TEST
-is( ($tb->table( -1))[ 0], $last_body, 'last_body');
+    # TEST
+    is( join( '', $tb->title), TYP_TITLE_ANS, 'TYP_TITLE_ANS');
+    # TEST
+    is( join( '', $tb->body), TYP_BODY_ANS, 'TYP_BODY_ANS');
+    my ( $first_title, $last_title) = ( TYP_TITLE_ANS =~ /(.*\n)/g)[ 0, -1];
+    my ( $first_body, $last_body) = ( TYP_BODY_ANS =~ /(.*\n)/g)[ 0, -1];
+    # TEST
+    is( ($tb->title( 0))[ 0], $first_title, 'first_title');
+    # TEST
+    is( ($tb->body( 0))[ 0], $first_body, 'first_body');
+    # TEST
+    is( ($tb->table( 0))[ 0], $first_title, 'first_title');
+    # TEST
+    is( ($tb->title( -1))[ 0], $last_title, 'last_title');
+    # TEST
+    is( ($tb->body( -1))[ 0], $last_body, 'last_body');
+    # TEST
+    is( ($tb->table( -1))[ 0], $last_body, 'last_body');
+
+}
 
 ### separators and rules
-$tb = Text::Table->new( 'aaa', \' x ', 'bbb');
+my $tb = Text::Table->new( 'aaa', \' x ', 'bbb');
 # TEST
 is( $tb->rule,            "    x    \n", 'rule 1');
 # TEST
