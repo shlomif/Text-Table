@@ -338,11 +338,17 @@ sub colrange {
     @widths = @widths[ 0 .. $col_index];
 
     my $width = pop @widths;
-    my $pos = sum(@widths);
+    my $pos = sum(@widths) || 0;
 
     my $seps_aref = _recover_separators( $tb->{ forms}->[ 0]);
-    $pos += length for @$seps_aref[ 0 .. $col_index];
-    return ( $pos, $width);
+
+    my $sep_sum = 0;
+    foreach my $sep (@$seps_aref[ 0 .. $col_index])
+    {
+        $sep_sum += length($sep);
+    }
+
+    return ( $pos+$sep_sum, $width ) ;
 }
 
 ## printable output
