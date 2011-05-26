@@ -543,22 +543,25 @@ is( $mult->stringify, <<EOT, 'stringify');
 EOT
 
 # overloading
-$tb = Text::Table->new( TYP_TITLE);
-$tb->load( TYP_DATA);
+{
+    my $tb = Text::Table->new( TYP_TITLE);
+    $tb->load( TYP_DATA);
 
-# TEST
-is( "$tb", TYP_ANS, 'TYP_ANS');
+    # TEST
+    is( "$tb", TYP_ANS, 'TYP_ANS');
+}
 
-# multi-line rows
-$tb = Text::Table->new( qw( A B C ) );
-$tb->load( [ "1", "2", "3" ],
-           [ "a\nb", "c", "d" ],
-           [ "e", "f\ng", "h" ],
-           [ "i", "j", "k\nl" ],
-           [ "m", "n", "o" ] );
+{
+    # multi-line rows
+    my $tb = Text::Table->new( qw( A B C ) );
+    $tb->load( [ "1", "2", "3" ],
+               [ "a\nb", "c", "d" ],
+               [ "e", "f\ng", "h" ],
+               [ "i", "j", "k\nl" ],
+               [ "m", "n", "o" ] );
 
-# TEST
-is( "$tb", <<EOT, "Table after spaces");
+    # TEST
+    is( "$tb", <<EOT, "Table after spaces");
 A B C
 1 2 3
 a c d
@@ -569,7 +572,7 @@ i j k
     l
 m n o
 EOT
-
+}
 # Chained ->load call
 
 # TEST
