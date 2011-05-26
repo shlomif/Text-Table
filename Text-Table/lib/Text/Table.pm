@@ -183,6 +183,18 @@ sub _spec
     return $self->{spec};
 }
 
+sub _titles
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{titles} = shift;
+    }
+
+    return $self->{titles};
+}
+
 sub _entitle {
     my $tb = shift; # will be completely overwritten
     # find active separators and, well separate them from col specs.
@@ -206,7 +218,7 @@ sub _entitle {
         _compile_format( [map { defined($_) ? $_->{ body} : undef } @seps] );
 
     # pre_align titles
-    my @titles = map [ @{ $_->{ title}}], @spec;
+    my @titles = map { [ @{ $_->{title} } ] } @spec;
 
     my $title_height = max(0, map { scalar(@$_) } @titles);
 
@@ -220,10 +232,11 @@ sub _entitle {
     # build data structure
     %$tb = (
         spec => \ @spec,                     # column spec for reuse
-        titles => \ @titles,                 # titles, pre-aligned
         cols => [ map [], 1 .. @spec],       # data columns
         forms => [ $title_form, $body_form], # separators condensed
     );
+
+    $tb->_titles(\@titles);
 
     $tb->_clear_cache;
 
@@ -303,7 +316,7 @@ sub _clear_cache {
     
     delete @{ $tb }{qw( lines )};
 
-    $tb->_blank($_);
+    $tb->_blank(undef());
 
     return;
 }
@@ -358,7 +371,7 @@ sub clear {
 sub n_cols { scalar @{ $_[0]->{ spec}} }
 
 # number of title lines
-sub title_height { $_[ 0]->n_cols and scalar @{ $_[ 0]->{ titles}->[ 0]} }
+sub title_height { $_[ 0]->n_cols and scalar @{ $_[ 0]->_titles->[ 0]} }
 
 # number of data lines
 sub body_height
@@ -527,7 +540,7 @@ sub _build_table_lines {
     splice @$_, 1 + $tb->body_height for @cols; # + 1 for blank line (brittle)
 
     # include titles
-    my @titles = @{ $tb->{ titles}};
+    my @titles = @{ $tb->_titles};
     unshift @$_, @{ shift @titles} for @cols; # add pre-aligned titles
 
     # align title and body portions of columns
