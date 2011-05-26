@@ -29,26 +29,25 @@ diag("Version: $Text::Table::VERSION\n");
 }
 
 # other functions
-use constant T_EMPTY  => <<EOT1;
-EOT1
-use constant T_SINGLE => <<EOT2;
+use constant T_EMPTY  => "\n";
+use constant T_SINGLE => <<'EOT2';
 single line title
 EOT2
-use constant T_MULTI  => <<EOT3;
+use constant T_MULTI  => <<'EOT3';
 
 multi-line
 <not the alignment>
 title
 
 EOT3
-use constant S_EMPTY => <<EOS1;
+use constant S_EMPTY => <<'EOS1';
 &
 EOS1
-use constant S_SINGLE => <<EOS2;
+use constant S_SINGLE => <<'EOS2';
 &num(,)
 00.000
 EOS2
-use constant S_MULTI  => <<EOS3;
+use constant S_MULTI  => <<'EOS3';
 &
 xxxx
 0.1
@@ -561,7 +560,7 @@ EOT
                [ "m", "n", "o" ] );
 
     # TEST
-    is( "$tb", <<EOT, "Table after spaces");
+    is( "$tb", <<'EOT', "Table after spaces");
 A B C
 1 2 3
 a c d
