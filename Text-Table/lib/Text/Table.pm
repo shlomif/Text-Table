@@ -37,14 +37,10 @@ sub _get_sep_title_body
 {
     my $sep = shift;
 
-    if ( ref($sep) eq 'HASH' )
-    {
-        return @{ $sep }{ qw( title body)};
-    }
-    else
-    {
-        return split /\n/, ${$sep}, -1;
-    }
+    return
+        +( ref($sep) eq 'HASH' )
+        ? @{ $sep }{qw(title body)}
+        : split( /\n/, ${$sep}, -1 ) ;
 }
 
 sub _parse_sep {
