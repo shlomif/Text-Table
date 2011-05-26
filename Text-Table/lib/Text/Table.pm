@@ -589,6 +589,8 @@ use Carp;
         return unless $warn;
         croak( $msg) if $fatal;
         carp( $msg);
+
+        return;
     }
 }
 
