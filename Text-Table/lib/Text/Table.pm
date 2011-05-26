@@ -312,11 +312,25 @@ sub width {
 # start and width of each column
 sub colrange {
     my ( $tb, $col_index) = @_;
+
     return ( 0, 0) unless $tb->width; # width called, $tb->{ blank} exists now
+
     $col_index ||= 0;
-    $col_index += $tb->n_cols if $col_index < 0;
-    _to_max( $col_index, 0);
-    _to_min( $col_index, $tb->n_cols);
+
+    if ($col_index < 0)
+    {
+        $col_index += $tb->n_cols;
+    }
+
+    if ($col_index < 0)
+    {
+        $col_index = 0;
+    }
+    elsif ($col_index > $tb->n_cols)
+    {
+        $col_index = $tb->n_cols;
+    }
+
     my @widths = map length, @{ $tb->{ blank}}, '';
     @widths = @widths[ 0 .. $col_index];
     my $width = pop @widths;
