@@ -169,7 +169,10 @@ sub _entitle {
         cols => [ map [], 1 .. @spec],       # data columns
         forms => [ $title_form, $body_form], # separators condensed
     );
+
     $tb->_clear_cache;
+
+    return $tb;
 }
 
 # sprintf-format for line assembly, using separators
