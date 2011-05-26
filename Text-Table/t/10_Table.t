@@ -218,11 +218,14 @@ is( $tb->width, 5, 'width == 5');
 is( $tb->height, 2, 'height == 2');
 
 # samples should be considered in title alignment even with no data
-my $tit;
-$tb = Text::Table->new( { title => 'x', sample => 'xxx'});
-chomp( $tit = $tb->title( 0));
-# TEST
-is( $tit, 'x  ' , 'title');
+{
+    my $title;
+    $tb = Text::Table->new( { title => 'x', sample => 'xxx'});
+    chomp( $title = $tb->title( 0));
+
+    # TEST
+    is( $title, 'x  ' , "samples should be in text aling - title");
+}
 
 # load without data
 $tb = Text::Table->new();
@@ -392,6 +395,8 @@ is( ($tb->colrange( 2))[ 0], 10, 'colrange 5');
 is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
 
 # body-title alignment
+
+my $tit;
 
 $tb = Text::Table->new( { title => 'x', align_title => 'right' });
 $tb->add( 'xxx');
