@@ -224,10 +224,8 @@ sub _entitle {
     }
     push @seps, $sep;
     # build sprintf formats from separators
-    my $title_form =
-        _compile_format( [map { defined($_) ? $_->{ title} : undef } @seps] );
-    my $body_form  =
-        _compile_format( [map { defined($_) ? $_->{ body} : undef } @seps] );
+    my $title_form = _compile_field_format('title', \@seps);
+    my $body_form = _compile_field_format('body', \@seps);
 
     # pre_align titles
     my @titles = map { [ @{ $_->{title} } ] } @spec;
@@ -268,6 +266,15 @@ sub _compile_format {
         }
    }
    return join '%s', @$seps;
+}
+
+sub _compile_field_format
+{
+    my ($field, $seps) = @_;
+
+    return _compile_format(
+        [map { defined($_) ? $_->{$field} : undef } @$seps] 
+    );
 }
 
 # reverse format compilation (used by colrange())
