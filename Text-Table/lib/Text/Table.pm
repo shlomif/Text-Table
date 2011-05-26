@@ -111,13 +111,15 @@ sub _parse_spec {
         );
         $align_title_lines = 'left';
     }
+
+    return
     {
         title             => $title,
         align             => $align,
         align_title       => $align_title,
         align_title_lines => $align_title_lines,
         sample            => $sample,
-    }
+    };
 }
 
 ### table creation
