@@ -124,9 +124,11 @@ sub _parse_spec {
 
 ### table creation
 
-sub new {
+sub new
+{
     my $tb = bless {}, shift;
-    $tb->_entitle( @_);
+
+    return $tb->_entitle( @_);
 }
 
 sub _entitle {
