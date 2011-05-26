@@ -563,12 +563,6 @@ sub body_rule {
     return $tb->_rule( 1, @_);
 }
 
-# min/max utilities (modifying first argument)
-
-sub _to_min {
-    defined $_[ 0] and $_[ 0] < $_[ 1] or $_[ 0] = $_[ 1] if defined $_[ 1];
-}
-
 ### warning behavior
 use Carp;
 
