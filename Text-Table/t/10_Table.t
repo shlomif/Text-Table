@@ -5,7 +5,7 @@ use Test::More tests => 165;
 
 use Text::Table;
 
-print "# Version: $Text::Table::VERSION\n";
+diag("Version: $Text::Table::VERSION\n");
 
 # internal parser functions
 
