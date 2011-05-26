@@ -506,41 +506,41 @@ _check_title_wo_params(
 );
 
 ### column selection
+{
+    my $tb = Text::Table->new( '', '');
+    $tb->load( [ 0, 1], [ undef, 2], [ '', 3]);
 
-my $tb = Text::Table->new( '', '');
-$tb->load( [ 0, 1], [ undef, 2], [ '', 3]);
+    # TEST
+    is( $tb->select(   0,    1 )->n_cols, 2, 'n_cols 1');
 
+    # TEST
+    is( $tb->select( [ 0],   1 )->n_cols, 1, 'n_cols 2');
 
-# TEST
-is( $tb->select(   0,    1 )->n_cols, 2, 'n_cols 1');
+    # TEST
+    is( $tb->select(   0,  [ 1])->n_cols, 2, 'n_cols 3');
 
-# TEST
-is( $tb->select( [ 0],   1 )->n_cols, 1, 'n_cols 2');
+    # TEST
+    is( $tb->select( [ 0], [ 1])->n_cols, 1, 'n_cols 4');
 
-# TEST
-is( $tb->select(   0,  [ 1])->n_cols, 2, 'n_cols 3');
+    # TEST
+    is( $tb->select( [ 0,    1])->n_cols, 0, 'n_cols 5');
 
-# TEST
-is( $tb->select( [ 0], [ 1])->n_cols, 1, 'n_cols 4');
+    # multiple selection
+    my $mult = $tb->select( 0, 1, 0, 1);
 
-# TEST
-is( $tb->select( [ 0,    1])->n_cols, 0, 'n_cols 5');
+    # TEST
+    is( $mult->n_cols, 4, 'n_cols 4');
 
-# multiple selection
-my $mult = $tb->select( 0, 1, 0, 1);
+    # TEST
+    is( $mult->height, 3, 'height 3');
 
-# TEST
-is( $mult->n_cols, 4, 'n_cols 4');
-
-# TEST
-is( $mult->height, 3, 'height 3');
-
-# TEST
-is( $mult->stringify, <<EOT, 'stringify');
+    # TEST
+    is( $mult->stringify, <<'EOT', 'stringify');
 0 1 0 1
   2   2
   3   3
 EOT
+}
 
 # overloading
 {
