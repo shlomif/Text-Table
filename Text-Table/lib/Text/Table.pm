@@ -473,7 +473,9 @@ sub stringify
 ### common internals
 
 # common representation of table(), title() and body()
-sub _table_portion {
+
+sub _table_portion_as_aref
+{
     my $tb = shift;
 
     my $total = shift;
@@ -488,20 +490,29 @@ sub _table_portion {
 
     ( $from, $n) = _limit_range( $total, $from, $n);
 
-    my @lines = do {
-        my $limit = $tb->title_height; # title format below
-        $from += $offset;
+    my $limit = $tb->title_height; # title format below
+    $from += $offset;
+
+    return
+    [
         map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_)),
-            $from .. $from + $n - 1;
-    };
+        $from .. $from + $n - 1
+    ];
+}
+
+sub _table_portion
+{
+    my $tb = shift;
+
+    my $lines_aref = $tb->_table_portion_as_aref(@_);
 
     if (wantarray)
     {
-        return @lines;
+        return @$lines_aref;
     }
     else
     {
-        return join '', @lines;
+        return join '', @$lines_aref;
     }
 }
 
