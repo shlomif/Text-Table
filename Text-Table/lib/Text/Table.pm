@@ -356,22 +356,30 @@ sub colrange {
 # whole table
 sub table {
     my $tb = shift;
-    $tb->_table_portion( $tb->height, 0, @_);
+
+    return $tb->_table_portion( $tb->height, 0, @_);
 }
 
 # only titles
 sub title {
     my $tb = shift;
-    $tb->_table_portion( $tb->title_height, 0, @_);
+
+    return $tb->_table_portion( $tb->title_height, 0, @_);
 }   
 
 # only body
 sub body {
     my $tb = shift;
-    $tb->_table_portion( $tb->body_height, $tb->title_height, @_);
+
+    return $tb->_table_portion( $tb->body_height, $tb->title_height, @_);
 }
 
-sub stringify { scalar shift()->table() }
+sub stringify
+{ 
+    my ($tb) = @_;
+
+    return (scalar ( $tb->table() ));
+}
 
 ### common internals
 
