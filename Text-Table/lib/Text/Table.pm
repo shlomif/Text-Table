@@ -171,6 +171,18 @@ sub _forms
     return $self->{forms};
 }
 
+sub _lines
+{
+    my $self = shift;
+
+    if (@_)
+    {
+        $self->{lines} = shift;
+    }
+
+    return $self->{lines};
+}
+
 sub _spec
 {
     my $self = shift;
@@ -314,9 +326,8 @@ sub _check_index {
 sub _clear_cache { 
     my ($tb) = @_;
     
-    delete @{ $tb }{qw( lines )};
-
     $tb->_blank(undef());
+    $tb->_lines(undef());
 
     return;
 }
@@ -513,7 +524,13 @@ sub _limit_range
 # get table line (formatted, including titles). fill cache if needed
 sub _table_line {
     my ($tb, $idx) = @_;
-    return (($tb->{ lines} ||= [ $tb->_build_table_lines])->[$idx]);
+
+    if (! $tb->_lines)
+    {
+        $tb->_lines([ $tb->_build_table_lines ]);
+    }
+
+    return $tb->_lines->[$idx];
 }
 
 # build array of lines of justified data items
@@ -559,7 +576,7 @@ sub _build_table_lines {
 sub _transpose_n {
     my ($n, $cols) = @_;
 
-    return map [ map shift @$_, @$cols], 1 .. $n;
+    return map { [ map { shift @$_ } @$cols] } 1 .. $n;
 }
 
 # like _transpose_n, but find the number to transpose from max of given
