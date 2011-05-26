@@ -396,67 +396,67 @@ is( ($tb->colrange( 2))[ 1], 0, 'colrange 6');
 
 # body-title alignment
 
-my $tit;
+my $title;
 
 $tb = Text::Table->new( { title => 'x', align_title => 'right' });
 $tb->add( 'xxx');
-chomp( $tit = $tb->title( 0));
+chomp( $title = $tb->title( 0));
 
 # TEST
-is( $tit, '  x', 'title');
+is( $title, '  x', 'title');
 
 $tb = Text::Table->new( { title => 'x', align_title => 'center' });
 $tb->add( 'xxx');
-chomp( $tit = $tb->title( 0));
+chomp( $title = $tb->title( 0));
 
 # TEST
-is( $tit, ' x ', 'title 2');
+is( $title, ' x ', 'title 2');
 
 $tb = Text::Table->new( { title => 'x', align_title => 'left' });
 $tb->add( 'xxx');
-chomp( $tit = $tb->title( 0));
+chomp( $title = $tb->title( 0));
 
 # TEST
-is( $tit, 'x  ', 'title 3');
+is( $title, 'x  ', 'title 3');
 
 $tb = Text::Table->new( { title => 'x' }); # default?
 $tb->add( 'xxx');
-chomp( $tit = $tb->title( 0));
+chomp( $title = $tb->title( 0));
 
 # TEST
-is( $tit, 'x  ', 'title 4');
+is( $title, 'x  ', 'title 4');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'right'});
-chomp( ( $tit) = $tb->title); # first line
+chomp( ( $title) = $tb->title); # first line
 
 # TEST
-is( $tit, '  x', 'title 5');
+is( $title, '  x', 'title 5');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'center'});
-chomp( ( $tit) = $tb->title); # first line
+chomp( ( $title) = $tb->title); # first line
 
 # TEST
-is( $tit, ' x ', 'title 6');
+is( $title, ' x ', 'title 6');
 
 $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'left'});
-chomp( ( $tit) = $tb->title); # first line
+chomp( ( $title) = $tb->title); # first line
 
 # TEST
-is( $tit, 'x  ', 'title 7');
+is( $title, 'x  ', 'title 7');
 
 # default?
 $tb = Text::Table->new( { title => "x\nxxx"});
-chomp( ( $tit) = $tb->title); # first line
+chomp( ( $title) = $tb->title); # first line
 
 # TEST
-is( $tit, 'x  ', 'title 8');
+is( $title, 'x  ', 'title 8');
 
 # default propagation from 'align_title'
 $tb = Text::Table->new( { title => "x\nxxx", align_title => 'right'});
-chomp( ( $tit) = $tb->title);
+chomp( ( $title) = $tb->title);
 
 # TEST
-is( $tit, '  x', 'title 9');
+is( $title, '  x', 'title 9');
 
 ### column selection
 
