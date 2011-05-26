@@ -240,14 +240,10 @@ sub _entitle {
     my @styles = map $_->{ align_title_lines}, @spec;
     align( shift @styles, @$_) for @titles; # in-place alignment
 
-    # TODO : convert to accessors.
     # build data structure
-    %$tb = (
-        spec => \ @spec,                     # column spec for reuse
-        cols => [ map [], 1 .. @spec],       # data columns
-        forms => [ $title_form, $body_form], # separators condensed
-    );
-
+    $tb->_spec(\@spec);
+    $tb->_cols([ map [], 1 .. @spec]);
+    $tb->_forms([ $title_form, $body_form]); # separators condensed
     $tb->_titles(\@titles);
 
     $tb->_clear_cache;
