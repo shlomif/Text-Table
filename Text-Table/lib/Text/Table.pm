@@ -682,25 +682,38 @@ use Carp;
 {
     my ( $warn, $fatal) = ( 0, 0);
 
-    sub warnings {
-        shift; # ignore class/object
-        local $_ = shift || 'on';
-        if ( $_ eq 'off' ) {
-            ( $warn, $fatal) = ( 0, 0);
-        } elsif ( $_ eq 'fatal' ) {
-            ( $warn, $fatal) = ( 1, 1);
-        } else {
-            ( $warn, $fatal) = ( 1, 0);
+    sub warnings
+    {
+        # Ignore the class/object.
+        my (undef, $toggle) = @_;
+
+        $toggle ||= 'on';
+        if ( $toggle eq 'off' )
+        {
+            ($warn, $fatal) = (0, 0);
         }
-        return 'fatal' if $fatal;
-        return 'on' if $warn;
-        return 'off';
+        elsif ( $toggle eq 'fatal' )
+        {
+            ($warn, $fatal) = (1, 1);
+        }
+        else
+        {
+            ($warn, $fatal) = (1, 0);
+        }
+        return $fatal ? 'fatal' : $warn ? 'on' : 'off';
     }
 
-    sub _warn {
+    sub _warn
+    {
         my $msg = shift;
+
         return unless $warn;
-        croak( $msg) if $fatal;
+
+        if ($fatal)
+        {
+            croak( $msg)
+        }
+
         carp( $msg);
 
         return;
