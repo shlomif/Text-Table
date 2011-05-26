@@ -121,34 +121,44 @@ for my $title ( TITLES ) {
     }
 }
 
-my $tb;
-$tb = Text::Table->new;
-# TEST
-is( ref $tb, 'Text::Table', "Class is OK.");
+{
+    my $tb = Text::Table->new;
 
-# TEST
-is( $tb->n_cols, 0, "n_cols == 0");
-# TEST
-is( $tb->height, 0, "height is 0");
-# TEST
-is( $tb->width, 0, "width is 0");
-# TEST
-is( $tb->stringify, '', "stringify is empty");
+    # TEST
+    is( ref $tb, 'Text::Table', "Class is OK.");
 
-# empty table with non-empty data array (auto-initialisation)
-$tb->load(
-'1 2 3',
-[4, 5, 6],
-'7 8',
-);
-# TEST
-is( $tb->n_cols, 3, "n_cols");
-# TEST
-is( $tb->height, 3, "height");
-# TEST
-is( $tb->width, 5, "width");
-# TEST
-is( $tb->stringify, "1 2 3\n4 5 6\n7 8  \n", "stringify is OK.");
+    # TEST
+    is( $tb->n_cols, 0, "n_cols == 0");
+
+    # TEST
+    is( $tb->height, 0, "height is 0");
+
+    # TEST
+    is( $tb->width, 0, "width is 0");
+
+    # TEST
+    is( $tb->stringify, '', "stringify is empty");
+
+    # empty table with non-empty data array (auto-initialisation)
+    $tb->load(
+    '1 2 3',
+    [4, 5, 6],
+    '7 8',
+    );
+
+    # TEST
+    is( $tb->n_cols, 3, "n_cols");
+
+    # TEST
+    is( $tb->height, 3, "height");
+
+    # TEST
+    is( $tb->width, 5, "width");
+
+    # TEST
+    is( $tb->stringify, "1 2 3\n4 5 6\n7 8  \n", "stringify is OK.");
+
+}
 
 # run this again with undefined $/, see if there's a warning
 {
@@ -156,7 +166,7 @@ is( $tb->stringify, "1 2 3\n4 5 6\n7 8  \n", "stringify is OK.");
     my $warncount = 0;
     local $SIG{__WARN__} = sub { ++ $warncount };
 
-    $tb = Text::Table->new;
+    my $tb = Text::Table->new;
 
     $tb->load(
     '1 2 3',
@@ -169,7 +179,7 @@ is( $tb->stringify, "1 2 3\n4 5 6\n7 8  \n", "stringify is OK.");
 }
 
 # single title-less column
-$tb = Text::Table->new( '');
+my $tb = Text::Table->new( '');
 # TEST
 is( $tb->n_cols, 1, "n_cols");
 # TEST
