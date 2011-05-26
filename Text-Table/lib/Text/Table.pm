@@ -16,8 +16,18 @@ use overload
 ### User interface:  How to specify columns and column separators
 
 sub _is_sep {
-    local $_ = shift;
-    defined and ( ref eq 'SCALAR' or ( ref eq 'HASH' and $_->{ is_sep}));
+    my $datum = shift;
+
+    return 
+    (
+        defined($datum) 
+            and
+        (
+            (ref($datum) eq 'SCALAR')
+                    or
+            (ref($datum) eq 'HASH' and $datum->{_is_sep})
+        )
+    );
 }
 
 sub _parse_sep {
