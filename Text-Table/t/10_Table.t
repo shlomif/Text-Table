@@ -1,7 +1,7 @@
 use strict; 
 use warnings;
 
-use Test::More tests => 166;
+use Test::More tests => 165;
 
 use Text::Table;
 
@@ -461,41 +461,53 @@ _check_title_0({align_title => 'left', result => 'x  '}, "align = left");
 # TEST*$check_title
 _check_title_0({result => 'x  '}, "default alignment");
 
-my $tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'right'});
-chomp( ( $title) = $tb->title); # first line
+sub _check_title_wo_params
+{
+    local $Test::Builder::Level = $Test::Builder::Level + 1;
 
-# TEST
-is( $title, '  x', 'title 5');
+    my ($args, $blurb) = @_;
 
-$tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'center'});
-chomp( ( $title) = $tb->title); # first line
+    my $tb = Text::Table->new(
+        { 
+            title => "x\nxxx", 
+            (exists($args->{align_title})
+                ? (align_title_lines => $args->{align_title},) 
+                : ()
+            ),
+        });
 
-# TEST
-is( $title, ' x ', 'title 6');
+    # First line
+    my ($title) = $tb->title();
 
-$tb = Text::Table->new( { title => "x\nxxx", align_title_lines => 'left'});
-chomp( ( $title) = $tb->title); # first line
+    chomp($title);
 
-# TEST
-is( $title, 'x  ', 'title 7');
+    is( $title, $args->{result}, "$blurb - title");
+}
 
-# default?
-$tb = Text::Table->new( { title => "x\nxxx"});
-chomp( ( $title) = $tb->title); # first line
+# TEST*$check_title
+_check_title_wo_params(
+    {align_title => "right", result => '  x'}, "align = right"
+);
 
-# TEST
-is( $title, 'x  ', 'title 8');
 
-# default propagation from 'align_title'
-$tb = Text::Table->new( { title => "x\nxxx", align_title => 'right'});
-chomp( ( $title) = $tb->title);
+# TEST*$check_title
+_check_title_wo_params(
+    {align_title => "center", result => ' x '}, "align = center"
+);
 
-# TEST
-is( $title, '  x', 'title 9');
+# TEST*$check_title
+_check_title_wo_params(
+    {align_title => "left", result => 'x  '}, "align = left"
+);
+
+# TEST*$check_title
+_check_title_wo_params(
+    {result => 'x  '}, "default alignment"
+);
 
 ### column selection
 
-$tb = Text::Table->new( '', '');
+my $tb = Text::Table->new( '', '');
 $tb->load( [ 0, 1], [ undef, 2], [ '', 3]);
 
 
