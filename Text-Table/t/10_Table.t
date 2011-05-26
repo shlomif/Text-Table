@@ -10,20 +10,23 @@ print "# Version: $Text::Table::VERSION\n";
 # internal parser functions
 
 # undefined argument
-my $spec = Text::Table::_parse_spec();
-# TEST
-is( scalar @{ $spec->{ title}}, 0, 'Title');
-# TEST
-is( $spec->{ align}, 'auto', 'Auto');
-# TEST
-is( scalar @{ $spec->{ sample}}, 0, 'sample');
-$spec = Text::Table::_parse_spec( undef);
-# TEST
-is( scalar @{ $spec->{ title}}, 0, 'No titles');
-# TEST
-is( $spec->{ align}, 'auto', 'auto');
-# TEST
-is( scalar @{ $spec->{ sample}}, 0, 'No samples');
+{
+    my $test_name = "Undefined argument";
+    my $spec = Text::Table::_parse_spec();
+    # TEST
+    is( scalar @{ $spec->{ title}}, 0, "$test_name - Title");
+    # TEST
+    is( $spec->{ align}, 'auto', "$test_name - Auto");
+    # TEST
+    is( scalar @{ $spec->{ sample}}, 0, "$test_name - sample");
+    $spec = Text::Table::_parse_spec( undef);
+    # TEST
+    is( scalar @{ $spec->{ title}}, 0, "$test_name - sNo titles");
+    # TEST
+    is( $spec->{ align}, 'auto', "$test_name - sauto");
+    # TEST
+    is( scalar @{ $spec->{ sample}}, 0, "$test_name - sNo samples");
+}
 
 # other functions
 use constant T_EMPTY  => <<EOT1;
