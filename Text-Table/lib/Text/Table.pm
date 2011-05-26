@@ -4,7 +4,7 @@ package Text::Table;
 use strict;
 use warnings;
 
-use List::Util qw(sum);
+use List::Util qw(sum max);
 
 use Text::Aligner qw(align);
 
@@ -158,9 +158,11 @@ sub _entitle {
 
     # pre_align titles
     my @titles = map [ @{ $_->{ title}}], @spec;
-    my $title_height = 0;
-    _to_max( $title_height, scalar @$_) for @titles;
+
+    my $title_height = max(0, map { scalar(@$_) } @titles);
+
     push @$_, ( '') x ( $title_height - @$_) for @titles;
+
 #   align( 'left', @$_) for @titles; # ready for use'
     my @styles = map $_->{ align_title_lines}, @spec;
     align( shift @styles, @$_) for @titles; # in-place alignment
@@ -386,38 +388,56 @@ sub stringify
 # common representation of table(), title() and body()
 sub _table_portion {
     my $tb = shift;
-    my ( $total, $offset) = ( shift, shift);
+
+    my $total = shift;
+    my $offset = shift;
+
     my ( $from, $n) = ( 0, $total); # if no parameters
+
     if ( @_ ) {
         $from = shift;
         $n = @_ ? shift : 1; # one line if not given
     }
+
     ( $from, $n) = _limit_range( $total, $from, $n);
+
     my @lines = do {
         my $limit = $tb->title_height; # title format below
         $from += $offset;
         map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_)),
             $from .. $from + $n - 1;
     };
-    return @lines if wantarray;
-    return join '', @lines;
+
+    if (wantarray)
+    {
+        return @lines;
+    }
+    else
+    {
+        return join '', @lines;
+    }
 }
 
-sub _limit_range {
+sub _limit_range
+{
     my ( $total, $from, $n) = @_;
+
     $from ||= 0;
     $from += $total if $from < 0;
     $n = $total unless defined $n;
+
     return ( 0, 0) if $from + $n < 0 or $from >= $total;
+
     $from = 0 if $from < 0;
     $n = $total - $from if $n > $total - $from;
-    ( $from, $n);
+
+    return( $from, $n);
 }
 
 # get table line (formatted, including titles). fill cache if needed
 sub _table_line {
-    my $tb = shift;
-    ($tb->{ lines} ||= [ $tb->_build_table_lines])->[ shift];
+    my ($tb, $idx) = @_;
+    return (($tb->{ lines} ||= [ $tb->_build_table_lines])->[$idx]);
 }
 
 # build array of lines of justified data items
@@ -453,27 +473,29 @@ sub _build_table_lines {
     # *_rule() knows this is done
     $tb->{ blank} = [ map pop @$_, @cols];
 
-    _transpose_n( $tb->height, @cols); # bye-bye, @cols
+    return _transpose_n( $tb->height, \@cols); # bye-bye, @cols
 }
 
 # destructively transpose a number of lines/cols from an array of arrayrefs 
-sub _transpose_n ($@) {
-    my $n = shift;
-    map [ map shift @$_, @_], 1 .. $n;
+sub _transpose_n {
+    my ($n, $cols) = @_;
+
+    return map [ map shift @$_, @$cols], 1 .. $n;
 }
 
 # like _transpose_n, but find the number to transpose from max of given
-sub _transpose {
-    my $m;
-    _to_max( $m, scalar @$_) for @_, []; # make sure $m is defined
-    _transpose_n( $m, @_);
+sub _transpose
+{
+    my $m = max ( map { scalar(@$_) } @_, []);
+
+    return _transpose_n( $m, [@_]);
 }
 
 # make a line from a number of formatted data elements
 sub _assemble_line {
     my $tb = shift;
     my $in_body = shift; # 0 for title, 1 for body
-    sprintf( $tb->{ forms}->[ !!$in_body], @{ shift()}) . "\n";
+    return sprintf( $tb->{ forms}->[ !!$in_body], @{ shift()}) . "\n";
 }
 
 # build a rule line
@@ -533,19 +555,15 @@ sub _rule {
 
 sub rule {
     my $tb = shift;
-    $tb->_rule( 0, @_);
+    return $tb->_rule( 0, @_);
 }
 
 sub body_rule {
     my $tb = shift;
-    $tb->_rule( 1, @_);
+    return $tb->_rule( 1, @_);
 }
 
-# min/max utilitiess (modifying first argument)
-
-sub _to_max {
-    defined $_[ 0] and $_[ 0] > $_[ 1] or $_[ 0] = $_[ 1] if defined $_[ 1];
-}
+# min/max utilities (modifying first argument)
 
 sub _to_min {
     defined $_[ 0] and $_[ 0] < $_[ 1] or $_[ 0] = $_[ 1] if defined $_[ 1];
