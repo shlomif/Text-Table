@@ -1,7 +1,10 @@
 # Text::Table - Organize Data in Tables
 package Text::Table;
+
 use strict;
 use warnings;
+
+use List::Util qw(sum);
 
 use Text::Aligner qw(align);
 
@@ -333,9 +336,10 @@ sub colrange {
 
     my @widths = map length, @{ $tb->{ blank}}, '';
     @widths = @widths[ 0 .. $col_index];
+
     my $width = pop @widths;
-    my $pos = 0;
-    $pos += $_ for @widths;
+    my $pos = sum(@widths);
+
     my $seps_aref = _recover_separators( $tb->{ forms}->[ 0]);
     $pos += length for @$seps_aref[ 0 .. $col_index];
     return ( $pos, $width);
