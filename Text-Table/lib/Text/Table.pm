@@ -31,21 +31,37 @@ sub _is_sep {
 }
 
 sub _parse_sep {
-    local $_ = shift;
-    defined $_ or $_ = '';
-    my ( $title, $body);
-    if ( ref eq 'HASH' ) {
-        ( $title, $body) = @{ $_}{ qw( title body)};
-    } else {
-        ( $title, $body) = split /\n/, $$_, -1;
+    my $sep = shift;
+
+    if (!defined($sep))
+    {
+        $sep = '';
     }
-    $body = $title unless defined $body;
-    align( 'left', $title, $body);
+
+    my ( $title, $body);
+
+    if ( ref($sep) eq 'HASH' )
+    {
+        ($title, $body) = @{ $sep }{ qw( title body)};
+    }
+    else
+    {
+        ($title, $body) = split /\n/, ${$sep}, -1;
+    }
+
+    if (!defined($body))
+    {
+        $body = $title;
+    }
+
+    ($title, $body) = align( 'left', $title, $body);
+
+    return
     {
         is_sep => 1,
         title  => $title,
         body   => $body,
-    }
+    };
 }
 
 sub _parse_spec {
