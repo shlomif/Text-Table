@@ -621,8 +621,10 @@ sub _build_table_lines {
 
     # align title and body portions of columns
     # blank line will be there even with no data
-    my @styles = map { $_->{ align_title} } @{ $tb->_spec };
-    align( shift @styles, @$_) for @cols; # in-place alignment
+    foreach my $col_idx (0 .. $#cols)
+    {
+        align($tb->_spec->[$col_idx]->{align_title}, @{$cols[$col_idx]});
+    }
 
     # deposit a blank line, pulling it off the columns.
     # *_rule() knows this is done
