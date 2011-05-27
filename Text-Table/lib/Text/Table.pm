@@ -262,9 +262,10 @@ sub _entitle {
 
     push @$_, ( '') x ( $title_height - @$_) for @titles;
 
-#   align( 'left', @$_) for @titles; # ready for use'
-    my @styles = map $_->{ align_title_lines}, @spec;
-    align( shift @styles, @$_) for @titles; # in-place alignment
+    foreach my $t_idx (0 .. $#titles)
+    {
+        align($spec[$t_idx]->{align_title_lines}, @{$titles[$t_idx]});
+    }
 
     # build data structure
     $tb->_spec(\@spec);
