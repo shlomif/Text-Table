@@ -642,26 +642,24 @@ sub _transpose
 
 # make a line from a number of formatted data elements
 sub _assemble_line {
-    my $tb = shift;
-    my $in_body = shift; # 0 for title, 1 for body
-    return sprintf( $tb->_forms->[ !!$in_body], @{ shift()}) . "\n";
+    my ($tb, $in_body, $line_aref) = @_;
+
+    return sprintf( $tb->_forms->[ !!$in_body], @$line_aref) . "\n";
 }
 
 # build a rule line
 sub _rule {
-    my $tb = shift;
-    my $in_body = shift;
+    my ($tb, $in_body, $char, $alt) = @_;
+
     return '' unless $tb->width; # this builds the cache, hence $tb->{ blank}
     my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
 
-    if (ref($_[0]) eq "CODE")
+    if (ref($char) eq "CODE")
     {
-        my ($char_cb, $alt_cb) = @_;
-
         my %callbacks =
         (
-            'char' => { cb => $char_cb, idx => 0 },
-            'alt' => { cb => $alt_cb, idx => 0 },
+            'char' => { cb => $char, idx => 0 },
+            'alt' => { cb => $alt, idx => 0 },
         );
 
         my $calc_substitution = sub {
@@ -689,8 +687,6 @@ sub _rule {
     }
     else
     {
-        my ( $char, $alt) = map /(.)/, @_;
-
         _default_if_empty(\$char, ' ');
 
         # replace blanks with $char. If $alt is given, replace nonblanks
