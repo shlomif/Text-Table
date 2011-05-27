@@ -647,6 +647,24 @@ sub _assemble_line {
     return sprintf( $tb->_forms->[ !!$in_body], @$line_aref) . "\n";
 }
 
+sub _text_rule
+{
+    my ($tb, $char, $alt, $rule) = @_;
+
+    # replace blanks with $char. If $alt is given, replace nonblanks
+    # with $alt
+    if ( defined $alt )
+    {
+        $rule =~ s/(.)/$1 eq ' ' ? $char : $alt/ge;
+    }
+    else
+    {
+        $rule =~ s/ /$char/g if $char ne ' ';
+    }
+
+    return $rule;
+}
+
 # build a rule line
 sub _rule {
     my ($tb, $in_body, $char, $alt) = @_;
@@ -689,14 +707,7 @@ sub _rule {
     {
         _default_if_empty(\$char, ' ');
 
-        # replace blanks with $char. If $alt is given, replace nonblanks
-        # with $alt
-        if ( defined $alt ) {
-            $rule =~ s/(.)/$1 eq ' ' ? $char : $alt/ge;
-        } else {
-            $rule =~ s/ /$char/g if $char ne ' ';
-        }
-        return $rule;
+        return $tb->_text_rule($char, $alt, $rule);
     }
 }
 
