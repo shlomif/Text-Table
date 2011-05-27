@@ -678,6 +678,13 @@ sub _positive_width_rule
 
     my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
 
+    return $tb->_render_rule($rule, $char, $alt);
+}
+
+sub _render_rule
+{
+    my ($tb, $rule, $char, $alt) = @_;
+
     if (ref($char) eq "CODE")
     {
         my %callbacks =
