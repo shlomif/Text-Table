@@ -128,7 +128,7 @@ sub _parse_spec {
     
     _default_if_empty(\$align_title, 'left');
 
-    unless ( $align_title =~ /^(?:left|center|right)/ ) {
+    if ( $align_title !~ /^(?:left|center|right)/ ) {
         _warn( "Invalid align_title specification: " .
             "'$align_title', using 'left'",
         );
@@ -137,7 +137,7 @@ sub _parse_spec {
     
     _default_if_empty(\$align_title_lines, $align_title);
 
-    unless ( $align_title_lines =~ /^(?:left|center|right)/ ) {
+    if ( $align_title_lines !~ /^(?:left|center|right)/ ) {
         _warn( "Invalid align_title_lines specification: " .
             "'$align_title_lines', using 'left'",
         );
