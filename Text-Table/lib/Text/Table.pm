@@ -667,9 +667,15 @@ sub _text_rule
 
 # build a rule line
 sub _rule {
+    my $tb = shift;
+
+    return + (!$tb->width) ? '' : $tb->_positive_width_rule(@_);
+}
+
+sub _positive_width_rule
+{
     my ($tb, $in_body, $char, $alt) = @_;
 
-    return '' unless $tb->width; # this builds the cache, hence $tb->{ blank}
     my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
 
     if (ref($char) eq "CODE")
