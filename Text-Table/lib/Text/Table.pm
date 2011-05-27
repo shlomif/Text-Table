@@ -725,12 +725,10 @@ sub _render_rule_with_callbacks
         my $which = substr($s, 0, 1) eq ' ' ? 'char' : 'alt';
         my $rec = $callbacks{$which};
 
-        my $replacement = $rec->{cb}->(
-            $rec->{idx}++,
+        return _get_fixed_len_string(
+            scalar ($rec->{cb}->($rec->{idx}++, $len)),
             $len,
         );
-
-        return _get_fixed_len_string($replacement, $len);
     };
 
     $rule =~ s/((.)\2*)/$calc_substitution->($1)/ge;
