@@ -382,7 +382,12 @@ sub add {
     my $tb = shift;
     $tb->_entitle( ( '') x @_) unless $tb->n_cols;
 
-    $tb->_add( @$_) for _transpose( map [ defined() ? split( /\n/ ) : '' ], @_);
+    $tb->_add( @$_) for 
+        _transpose( 
+            [
+                map { [ defined() ? split( /\n/ ) : '' ] } @_
+            ]
+        );
     $tb->_clear_cache;
 
     return $tb;
@@ -661,9 +666,11 @@ sub _transpose_n {
 # like _transpose_n, but find the number to transpose from max of given
 sub _transpose
 {
-    my $m = max ( map { scalar(@$_) } @_, []);
+    my ($cols) = @_;
 
-    return _transpose_n( $m, [@_]);
+    my $m = max ( map { scalar(@$_) } @$cols, []);
+
+    return _transpose_n( $m, $cols);
 }
 
 # make a line from a number of formatted data elements
