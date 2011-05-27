@@ -116,7 +116,12 @@ sub _parse_spec {
         _warn( "Invalid align specification: '$align', using 'auto'");
         $align = 'auto';
     }
-    defined $align_title and length $align_title or $align_title = 'left';
+
+    if (!(defined $align_title and length $align_title))
+    {
+        $align_title = 'left';
+    }
+
     unless ( $align_title =~ /^(?:left|center|right)/ ) {
         _warn( "Invalid align_title specification: " .
             "'$align_title', using 'left'",
