@@ -615,8 +615,10 @@ sub _build_table_lines {
     splice @$_, 1 + $tb->body_height for @cols; # + 1 for blank line (brittle)
 
     # include titles
-    my @titles = @{ $tb->_titles};
-    unshift @$_, @{ shift @titles} for @cols; # add pre-aligned titles
+    foreach my $col_idx (0 .. $#cols)
+    {
+        unshift @{$cols[$col_idx]}, @{$tb->_titles->[$col_idx]};
+    }
 
     # align title and body portions of columns
     # blank line will be there even with no data
