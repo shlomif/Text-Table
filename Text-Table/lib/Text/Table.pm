@@ -615,7 +615,6 @@ sub _build_table_lines {
     }
 
     # trim off samples, but leave blank line
-
     foreach my $col (@cols)
     {
         splice( @{$col}, 1 + $tb->body_height );
