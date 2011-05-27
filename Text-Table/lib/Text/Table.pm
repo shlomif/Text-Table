@@ -68,6 +68,18 @@ sub _parse_sep {
     };
 }
 
+sub _default_if_empty
+{
+    my ($ref, $default) = @_;
+
+    if (! (defined($$ref) && length($$ref)))
+    {
+        $$ref = $default;
+    }
+
+    return;
+}
+
 sub _parse_spec {
     my $spec = shift;
 
@@ -104,10 +116,7 @@ sub _parse_spec {
         }
     }
 
-    if (! (defined($align) && length($align)))
-    {
-        $align = 'auto';
-    }
+    _default_if_empty(\$align, 'auto');
 
     unless (
         ref $align eq 'Regex' or
@@ -116,11 +125,8 @@ sub _parse_spec {
         _warn( "Invalid align specification: '$align', using 'auto'");
         $align = 'auto';
     }
-
-    if (!(defined $align_title and length $align_title))
-    {
-        $align_title = 'left';
-    }
+    
+    _default_if_empty(\$align_title, 'left');
 
     unless ( $align_title =~ /^(?:left|center|right)/ ) {
         _warn( "Invalid align_title specification: " .
