@@ -722,7 +722,7 @@ sub _render_rule_with_callbacks
 
         my $len = length($s);
 
-        my $which = substr($s, 0, 1) eq ' ' ? 'char' : 'alt';
+        my $which = (($s =~ /\A /) ? 'char' : 'alt');
         my $rec = $callbacks{$which};
 
         return _get_fixed_len_string(
