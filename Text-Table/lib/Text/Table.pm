@@ -260,7 +260,10 @@ sub _entitle {
 
     my $title_height = max(0, map { scalar(@$_) } @titles);
 
-    push @$_, ( '') x ( $title_height - @$_) for @titles;
+    foreach my $title (@titles)
+    {
+        push @{$title}, ( '') x ( $title_height - @{$title});
+    }
 
     foreach my $t_idx (0 .. $#titles)
     {
