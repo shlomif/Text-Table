@@ -134,8 +134,9 @@ sub _parse_spec {
         );
         $align_title = 'left';
     }
-    defined $align_title_lines and length $align_title_lines or
-        $align_title_lines = $align_title;
+    
+    _default_if_empty(\$align_title_lines, $align_title);
+
     unless ( $align_title_lines =~ /^(?:left|center|right)/ ) {
         _warn( "Invalid align_title_lines specification: " .
             "'$align_title_lines', using 'left'",
