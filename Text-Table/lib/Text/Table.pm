@@ -629,7 +629,7 @@ sub _build_table_lines {
 
     # deposit a blank line, pulling it off the columns.
     # *_rule() knows this is done
-    $tb->_blank([ map pop @$_, @cols]);
+    $tb->_blank([ map { pop @$_ } @cols]);
 
     return _transpose_n( $tb->height, \@cols); # bye-bye, @cols
 }
