@@ -697,6 +697,16 @@ sub _render_rule
     }
 }
 
+sub _get_fixed_len_string
+{
+    my ($s, $len) = @_;
+
+    $s  = substr($s, 0, $len);
+    $s .= ' ' x ($len - length($s));
+
+    return $s;
+}
+
 sub _render_rule_with_callbacks
 {
     my ($tb, $rule, $char, $alt) = @_;
@@ -720,10 +730,7 @@ sub _render_rule_with_callbacks
             $len,
         );
 
-        $replacement = substr($replacement, 0, $len);
-        $replacement .= ' ' x ($len - length($replacement));
-
-        return $replacement;
+        return _get_fixed_len_string($replacement, $len);
     };
 
     $rule =~ s/((.)\2*)/$calc_substitution->($1)/ge;
