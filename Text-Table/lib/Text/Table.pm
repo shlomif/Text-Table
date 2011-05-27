@@ -690,7 +690,9 @@ sub _rule {
     else
     {
         my ( $char, $alt) = map /(.)/, @_;
-        ( defined $char and length $char) or $char = ' ';
+
+        _default_if_empty(\$char, ' ');
+
         # replace blanks with $char. If $alt is given, replace nonblanks
         # with $alt
         if ( defined $alt ) {
