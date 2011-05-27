@@ -90,9 +90,25 @@ sub _parse_spec {
         }
         defined and chomp for $title, $sample;
     }
-    defined or $_ = [] for $title, $sample;
-    defined $align and length $align or $align = 'auto';
-    ref eq 'ARRAY' or $_ = [ split /\n/, $_, -1] for $title, $sample;
+
+    # Assign default values.
+    foreach my $x ($title, $sample)
+    {
+        if (!defined($x))
+        {
+            $x = [];
+        }
+        elsif (ref($x) ne 'ARRAY')
+        {
+            $x = [ split /\n/, $x, -1];
+        }
+    }
+
+    if (! (defined($align) && length($align)))
+    {
+        $align = 'auto';
+    }
+
     unless (
         ref $align eq 'Regex' or
         $align =~ /^(?:left|center|right|num\(?|point\(?|auto)/
