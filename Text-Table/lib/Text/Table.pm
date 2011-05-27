@@ -649,7 +649,7 @@ sub _assemble_line {
 
 sub _text_rule
 {
-    my ($tb, $char, $alt, $rule) = @_;
+    my ($tb, $rule, $char, $alt) = @_;
 
     # replace blanks with $char. If $alt is given, replace nonblanks
     # with $alt
@@ -687,41 +687,48 @@ sub _render_rule
 
     if (ref($char) eq "CODE")
     {
-        my %callbacks =
-        (
-            'char' => { cb => $char, idx => 0 },
-            'alt' => { cb => $alt, idx => 0 },
-        );
-
-        my $calc_substitution = sub {
-            my $s = shift;
-
-            my $len = length($s);
-
-            my $which = substr($s, 0, 1) eq ' ' ? 'char' : 'alt';
-            my $rec = $callbacks{$which};
-
-            my $replacement = $rec->{cb}->(
-                $rec->{idx}++,
-                $len,
-            );
-            
-            $replacement = substr($replacement, 0, $len);
-            $replacement .= ' ' x ($len - length($replacement));
-
-            return $replacement;
-        };
-
-        $rule =~ s/((.)\2*)/$calc_substitution->($1)/ge;
-
-        return $rule;
+        return $tb->_render_rule_with_callbacks($rule, $char, $alt);
     }
     else
     {
         _default_if_empty(\$char, ' ');
 
-        return $tb->_text_rule($char, $alt, $rule);
+        return $tb->_text_rule($rule, $char, $alt);
     }
+}
+
+sub _render_rule_with_callbacks
+{
+    my ($tb, $rule, $char, $alt) = @_;
+
+    my %callbacks =
+    (
+        'char' => { cb => $char, idx => 0, },
+        'alt' => { cb => $alt, idx => 0, },
+    );
+
+    my $calc_substitution = sub {
+        my $s = shift;
+
+        my $len = length($s);
+
+        my $which = substr($s, 0, 1) eq ' ' ? 'char' : 'alt';
+        my $rec = $callbacks{$which};
+
+        my $replacement = $rec->{cb}->(
+            $rec->{idx}++,
+            $len,
+        );
+
+        $replacement = substr($replacement, 0, $len);
+        $replacement .= ' ' x ($len - length($replacement));
+
+        return $replacement;
+    };
+
+    $rule =~ s/((.)\2*)/$calc_substitution->($1)/ge;
+
+    return $rule;
 }
 
 sub rule {
