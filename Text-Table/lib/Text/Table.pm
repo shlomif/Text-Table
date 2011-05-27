@@ -600,10 +600,9 @@ sub _build_table_lines {
     }
 
     # add samples for minimum alignment
-    my @samples = map { $_->{ sample} } @{ $tb->_spec };
-    foreach my $col (@cols)
+    foreach my $col_idx (0 .. $#cols)
     {
-        push @{$col}, @{ shift(@samples) };
+        push @{$cols[$col_idx]}, @{$tb->_spec->[$col_idx]->{sample}};
     }
 
     # align to style
