@@ -594,7 +594,10 @@ sub _build_table_lines {
     my @cols = map [ map { defined($_) ? $_ : ''} @$_], @{ $tb->_cols() };
 
     # add set of empty strings for blank line (needed to build horizontal rules)
-    push @$_, '' for @cols;
+    foreach my $col (@cols)
+    {
+        push @$col, '';
+    }
 
     # add samples for minimum alignment
     my @samples = map { $_->{ sample} } @{ $tb->_spec };
@@ -604,8 +607,11 @@ sub _build_table_lines {
     }
 
     # align to style
-    my @styles = map { $_->{ align} } @{ $tb->_spec };
-    align( shift @styles, @$_) for @cols;
+    foreach my $col_idx (0 .. $#cols)
+    {
+        align($tb->_spec->[$col_idx]->{align}, @{$cols[$col_idx]});
+    }
+
     # trim off samples, but leave blank line
     splice @$_, 1 + $tb->body_height for @cols; # + 1 for blank line (brittle)
 
@@ -615,7 +621,7 @@ sub _build_table_lines {
 
     # align title and body portions of columns
     # blank line will be there even with no data
-    @styles = map { $_->{ align_title} } @{ $tb->_spec };
+    my @styles = map { $_->{ align_title} } @{ $tb->_spec };
     align( shift @styles, @$_) for @cols; # in-place alignment
 
     # deposit a blank line, pulling it off the columns.
