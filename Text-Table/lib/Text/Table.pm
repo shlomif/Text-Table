@@ -434,12 +434,20 @@ sub body_height
 }
 
 # total height
-sub table_height { $_[ 0]->title_height + $_[ 0]->body_height }
-BEGIN { *height = \ &table_height} # alias
+sub table_height
+{ 
+    my $tb = shift;
+    return $tb->title_height + $tb->body_height;
+}
+
+BEGIN { *height = \&table_height; } # alias
 
 # number of characters in each table line. need to build the table to know
-sub width {
-    $_[ 0]->height and length( ($_[ 0]->table( 0))[ 0]) - 1;
+sub width
+{
+    my ($tb) = @_;
+
+    return $tb->height && (length( ($tb->table(0))[0] ) - 1);
 }
 
 # start and width of each column
