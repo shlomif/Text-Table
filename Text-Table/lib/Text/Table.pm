@@ -615,7 +615,11 @@ sub _build_table_lines {
     }
 
     # trim off samples, but leave blank line
-    splice @$_, 1 + $tb->body_height for @cols; # + 1 for blank line (brittle)
+
+    foreach my $col (@cols)
+    {
+        splice( @{$col}, 1 + $tb->body_height );
+    }
 
     # include titles
     foreach my $col_idx (0 .. $#cols)
