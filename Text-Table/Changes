@@ -1,7 +1,9 @@
 Revision history for Perl extension Text::Table.
 
+1.122       ( Fri Jun  3 21:25:01 IDT 2011 )
 - Fix https://rt.cpan.org/Public/Bug/Display.html?id=68631 - passing
 hashrefs as separators.
+- Many refactorings.
 
 1.121       ( Thu May 26 21:22:21 IDT 2011 )
 - Convert t/10_Table.t to Test-Count.
