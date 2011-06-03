@@ -13,5 +13,6 @@ README
 t/01_ini.t
 t/10_Table.t
 t/11_Variable_Rule.t
+t/12_column_seps_as_hashes.t
 t/pod-coverage.t
 t/pod.t

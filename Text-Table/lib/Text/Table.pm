@@ -28,7 +28,7 @@ sub _is_sep {
         (
             (ref($datum) eq 'SCALAR')
                     or
-            (ref($datum) eq 'HASH' and $datum->{_is_sep})
+            (ref($datum) eq 'HASH' and $datum->{is_sep})
         )
     );
 }
