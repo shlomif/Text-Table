@@ -80,6 +80,13 @@ sub _default_if_empty
     return;
 }
 
+sub _is_align
+{
+    my $align = shift;
+
+    return $align =~ /\A(?:left|center|right)/;
+}
+
 sub _parse_spec {
     my $spec = shift;
 
@@ -128,7 +135,7 @@ sub _parse_spec {
     
     _default_if_empty(\$align_title, 'left');
 
-    if ( $align_title !~ /^(?:left|center|right)/ ) {
+    if ( ! _is_align($align_title) ) {
         _warn( "Invalid align_title specification: " .
             "'$align_title', using 'left'",
         );
@@ -137,7 +144,7 @@ sub _parse_spec {
     
     _default_if_empty(\$align_title_lines, $align_title);
 
-    if ( $align_title_lines !~ /^(?:left|center|right)/ ) {
+    if ( ! _is_align($align_title_lines) ) {
         _warn( "Invalid align_title_lines specification: " .
             "'$align_title_lines', using 'left'",
         );
