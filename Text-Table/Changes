@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::Table.
 
+1.123       ( Fri Jun 10 21:08:50 IDT 2011 )
+- Add ./Build to MANIFEST.SKIP so it won't be packaged.
+    - Thanks to Zed Pobre.
+
 1.122       ( Fri Jun  3 21:25:01 IDT 2011 )
 - Fix https://rt.cpan.org/Public/Bug/Display.html?id=68631 - passing
 hashrefs as separators.

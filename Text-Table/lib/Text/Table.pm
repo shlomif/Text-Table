@@ -9,7 +9,7 @@ use List::Util qw(sum max);
 use Text::Aligner qw(align);
 
 BEGIN {
-    our $VERSION = '1.122';
+    our $VERSION = '1.123';
 }
 
 use overload
