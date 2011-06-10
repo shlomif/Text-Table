@@ -1,5 +1,4 @@
 .gitignore
-Build
 Build.PL
 Changes
 inc/Test/Run/Builder.pm
