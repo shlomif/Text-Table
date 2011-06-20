@@ -424,7 +424,10 @@ sub load {
 sub clear {
     my $tb = shift;
 
-    $_ = [] for @{ $tb->_cols};
+    foreach my $col (@{ $tb->_cols} )
+    {
+        $col = [];
+    }
 
     $tb->_clear_cache;
 
