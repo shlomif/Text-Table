@@ -466,11 +466,9 @@ sub width
     return $tb->height && (length( ($tb->table(0))[0] ) - 1);
 }
 
-# start and width of each column
-sub colrange {
-    my ( $tb, $col_index) = @_;
-
-    return ( 0, 0) unless $tb->width; # width called, $tb->_blank() exists now
+sub _normalize_col_index
+{
+    my ($tb, $col_index) = @_;
 
     $col_index ||= 0;
 
@@ -488,6 +486,16 @@ sub colrange {
         $col_index = $tb->n_cols;
     }
 
+    return $col_index;
+}
+
+# start and width of each column
+sub colrange {
+    my ( $tb, $proto_col_index) = @_;
+
+    my $col_index = $tb->_normalize_col_index($proto_col_index);
+
+    return ( 0, 0) unless $tb->width; # width called, $tb->_blank() exists now
     my @widths = map { length } @{ $tb->_blank}, '';
     @widths = @widths[ 0 .. $col_index];
 
