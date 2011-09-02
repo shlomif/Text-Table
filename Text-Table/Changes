@@ -1,5 +1,6 @@
 Revision history for Perl extension Text::Table.
 
+1.124       ( Fri Sep  2 12:35:14 IDT 2011 )
 - Fix handling whitespace in column separators when the callback-based
 rule is invoked.
     - Thanks to Cary Millsap for the bug report.
