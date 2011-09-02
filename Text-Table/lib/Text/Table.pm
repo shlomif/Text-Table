@@ -896,7 +896,7 @@ in dependence on the data present.
 
 In the simplest case, if all you want is a number of (untitled) columns,
 you create an unspecified table and start adding data to it.  The number
-of columns is taken fronm the first line of data.
+of columns is taken from the first line of data.
 
 To specify a table you specify its columns.  A column description
 can contain a title and alignment requirements for the data, both
