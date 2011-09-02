@@ -571,7 +571,7 @@ sub _table_portion_as_aref
 
     return
     [
-        map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_)),
+        map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_), 0),
         $from .. $from + $n - 1
     ];
 }
@@ -693,9 +693,16 @@ sub _transpose
 
 # make a line from a number of formatted data elements
 sub _assemble_line {
-    my ($tb, $in_body, $line_aref) = @_;
+    my ($tb, $in_body, $line_aref, $replace_spaces) = @_;
 
-    return sprintf( $tb->_forms->[ !!$in_body], @$line_aref) . "\n";
+    my $format = $tb->_forms->[ !!$in_body];
+
+    if ($replace_spaces)
+    {
+        $format =~ s/\s/=/g;
+    }
+
+    return sprintf($format, @$line_aref) . "\n";
 }
 
 sub _text_rule
@@ -727,7 +734,9 @@ sub _positive_width_rule
 {
     my ($tb, $in_body, $char, $alt) = @_;
 
-    my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
+    my $rule = $tb->_assemble_line( $in_body, $tb->_blank,
+        ((ref($char) eq "CODE") ? 1 : 0),
+    );
 
     return $tb->_render_rule($rule, $char, $alt);
 }

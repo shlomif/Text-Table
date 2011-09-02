@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::Table.
 
+- Fix handling whitespace in column separators when the callback-based
+rule is invoked.
+    - Thanks to Cary Millsap for the bug report.
+
 1.123       ( Fri Jun 10 21:08:50 IDT 2011 )
 - Add ./Build to MANIFEST.SKIP so it won't be packaged.
     - Thanks to Zed Pobre.
