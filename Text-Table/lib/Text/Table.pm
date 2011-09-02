@@ -409,12 +409,16 @@ sub add {
         $tb->_entitle( [ ('') x @_] );
     }
 
-    $tb->_add( @$_) for 
+    foreach my $row (
         _transpose( 
             [
                 map { [ defined() ? split( /\n/ ) : '' ] } @_
             ]
-        );
+        )
+    )
+    {
+        $tb->_add(@$row);
+    }
     $tb->_clear_cache;
 
     return $tb;
@@ -424,7 +428,9 @@ sub add {
 sub _add {
     my $tb = shift;
 
-    push @$_, shift for @{ $tb->_cols};
+    foreach my $col ( @{ $tb->_cols} ) {
+        push @{$col}, shift(@_);
+    }
 
     $tb->_clear_cache;
 
@@ -434,9 +440,13 @@ sub _add {
 # add one or more data lines
 sub load {
     my $tb = shift;
-    for ( @_ ) {
-        defined $_ or $_ = '';
-        ref($_) eq 'ARRAY' ? $tb->add( @$_) : $tb->add( split);
+    foreach my $row ( @_ ) {
+        if (!defined($row)) {
+            $row = '';
+        }
+        $tb->add(
+            (ref($row) eq 'ARRAY') ? (@$row) : (split ' ',$row)
+        )
     }
     $tb;
 }
