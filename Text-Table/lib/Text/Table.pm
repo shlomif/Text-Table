@@ -97,7 +97,7 @@ sub _parse_spec {
 
     my $alispec = qr/^ *(?:left|center|right|num|point|auto)/;
     my ( $title, $align, $align_title, $align_title_lines, $sample);
-    if ( ref eq 'HASH' ) {
+    if ( ref ($spec) eq 'HASH' ) {
         ( $title, $align, $align_title, $align_title_lines, $sample) =
             @{$spec}{qw( title align align_title align_title_lines sample )};
     } else {
@@ -167,7 +167,7 @@ sub new
 {
     my $tb = bless {}, shift;
 
-    return $tb->_entitle( @_);
+    return $tb->_entitle( [ @_ ] );
 }
 
 sub _blank
@@ -243,17 +243,17 @@ sub _titles
 }
 
 sub _entitle {
-    my $tb = shift; # will be completely overwritten
+    my ($tb, $sep_list) = @_; # will be completely overwritten
     # find active separators and, well separate them from col specs.
     # n+1 separators for n cols
     my ( @seps, @spec); # separators and column specifications
     my $sep;
-    for ( @_ ) {
-        if ( _is_sep ( $_) ) {
-            $sep = _parse_sep( $_);
+    foreach my $sep_item ( @{$sep_list} ) {
+        if ( _is_sep ($sep_item) ) {
+            $sep = _parse_sep($sep_item);
         } else {
             push @seps, $sep;
-            push @spec, _parse_spec( $_);
+            push @spec, _parse_spec($sep_item);
             undef $sep;
         }
     }
@@ -387,7 +387,10 @@ sub _clear_cache {
 # add one data line or split the line into follow-up lines
 sub add {
     my $tb = shift;
-    $tb->_entitle( ( '') x @_) unless $tb->n_cols;
+
+    if (! $tb->n_cols) {
+        $tb->_entitle( [ ('') x @_] );
+    }
 
     $tb->_add( @$_) for 
         _transpose( 
@@ -416,7 +419,7 @@ sub load {
     my $tb = shift;
     for ( @_ ) {
         defined $_ or $_ = '';
-        ref eq 'ARRAY' ? $tb->add( @$_) : $tb->add( split);
+        ref($_) eq 'ARRAY' ? $tb->add( @$_) : $tb->add( split);
     }
     $tb;
 }
