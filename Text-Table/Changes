@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::Table.
 
+1.124
+- Add examples/Text-Table-UTF8-example.pl
+    - Thanks to Lady_Aleena for inspiring it.
+
 1.123       ( Fri Jun 10 21:08:50 IDT 2011 )
 - Add ./Build to MANIFEST.SKIP so it won't be packaged.
     - Thanks to Zed Pobre.

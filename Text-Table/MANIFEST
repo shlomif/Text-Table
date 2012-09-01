@@ -1,6 +1,7 @@
 .gitignore
 Build.PL
 Changes
+examples/Text-Table-UTF8-example.pl
 inc/Test/Run/Builder.pm
 lib/Text/Table.pm
 LICENSE
@@ -15,3 +16,4 @@ t/11_Variable_Rule.t
 t/12_column_seps_as_hashes.t
 t/pod-coverage.t
 t/pod.t
+META.json

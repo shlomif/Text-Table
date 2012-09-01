@@ -9,7 +9,7 @@ use List::Util qw(sum max);
 use Text::Aligner qw(align);
 
 BEGIN {
-    our $VERSION = '1.123';
+    our $VERSION = '1.124';
 }
 
 use overload
@@ -1390,8 +1390,8 @@ can also be called as an object method (C<$tb-E<gt>warnings( ...)>).
 =back
 
 =head1 VERSION
-    
-This document pertains to Text::Table version 1.121
+
+This document pertains to Text::Table version 1.124
 
 =head1 BUGS
 
