@@ -97,7 +97,7 @@ sub _parse_spec {
 
     my $alispec = qr/^ *(?:left|center|right|num|point|auto)/;
     my ( $title, $align, $align_title, $align_title_lines, $sample);
-    if ( ref eq 'HASH' ) {
+    if ( ref ($spec) eq 'HASH' ) {
         ( $title, $align, $align_title, $align_title_lines, $sample) =
             @{$spec}{qw( title align align_title align_title_lines sample )};
     } else {
@@ -107,7 +107,13 @@ sub _parse_spec {
         } else {
             $title = $spec;
         }
-        defined and chomp for $title, $sample;
+        for my $s ($title, $sample)
+        {
+            if (defined($s))
+            {
+                chomp($s);
+            }
+        }
     }
 
     # Assign default values.
@@ -167,7 +173,7 @@ sub new
 {
     my $tb = bless {}, shift;
 
-    return $tb->_entitle( @_);
+    return $tb->_entitle( [ @_ ] );
 }
 
 sub _blank
@@ -243,17 +249,17 @@ sub _titles
 }
 
 sub _entitle {
-    my $tb = shift; # will be completely overwritten
+    my ($tb, $sep_list) = @_; # will be completely overwritten
     # find active separators and, well separate them from col specs.
     # n+1 separators for n cols
     my ( @seps, @spec); # separators and column specifications
     my $sep;
-    for ( @_ ) {
-        if ( _is_sep ( $_) ) {
-            $sep = _parse_sep( $_);
+    foreach my $sep_item ( @{$sep_list} ) {
+        if ( _is_sep ($sep_item) ) {
+            $sep = _parse_sep($sep_item);
         } else {
             push @seps, $sep;
-            push @spec, _parse_spec( $_);
+            push @spec, _parse_spec($sep_item);
             undef $sep;
         }
     }
@@ -320,7 +326,10 @@ sub _compile_field_format
 sub _recover_separators {
     my $format = shift;
     my @seps = split /(?<!%)%s/, $format, -1;
-    s/%%/%/g for @seps;
+    for my $s (@seps)
+    {
+        $s =~ s/%%/%/g;
+    }
     return \@seps;
 }
 
@@ -350,11 +359,19 @@ sub select {
 # if so, the group is returned, else nothing
 sub _select_group {
     my ( $tb, $group) = @_;
-    return $_ unless ref $group eq 'ARRAY';
-    for ( @$group ) {
-        next if _is_sep( $_);
-        $tb->_check_index( $_);
-        return @$group if grep $_, @{ $tb->_cols->[ $_]};
+    return $group unless ref $group eq 'ARRAY';
+    GROUP_LOOP:
+    for my $g ( @$group ) {
+        if (_is_sep($g))
+        {
+            next GROUP_LOOP;
+        }
+        $tb->_check_index($g);
+        
+        if (grep { $_} @{ $tb->_cols->[$g] })
+        {
+            return @$group;
+        }
         return; # no more tries after non-sep was found
     }
     return; # no column index in group, no select
@@ -387,14 +404,21 @@ sub _clear_cache {
 # add one data line or split the line into follow-up lines
 sub add {
     my $tb = shift;
-    $tb->_entitle( ( '') x @_) unless $tb->n_cols;
 
-    $tb->_add( @$_) for 
+    if (! $tb->n_cols) {
+        $tb->_entitle( [ ('') x @_] );
+    }
+
+    foreach my $row (
         _transpose( 
             [
                 map { [ defined() ? split( /\n/ ) : '' ] } @_
             ]
-        );
+        )
+    )
+    {
+        $tb->_add(@$row);
+    }
     $tb->_clear_cache;
 
     return $tb;
@@ -404,7 +428,9 @@ sub add {
 sub _add {
     my $tb = shift;
 
-    push @$_, shift for @{ $tb->_cols};
+    foreach my $col ( @{ $tb->_cols} ) {
+        push @{$col}, shift(@_);
+    }
 
     $tb->_clear_cache;
 
@@ -414,9 +440,13 @@ sub _add {
 # add one or more data lines
 sub load {
     my $tb = shift;
-    for ( @_ ) {
-        defined $_ or $_ = '';
-        ref eq 'ARRAY' ? $tb->add( @$_) : $tb->add( split);
+    foreach my $row ( @_ ) {
+        if (!defined($row)) {
+            $row = '';
+        }
+        $tb->add(
+            (ref($row) eq 'ARRAY') ? (@$row) : (split ' ',$row)
+        )
     }
     $tb;
 }
@@ -571,7 +601,7 @@ sub _table_portion_as_aref
 
     return
     [
-        map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_)),
+        map $tb->_assemble_line( $_ >= $limit, $tb->_table_line( $_), 0),
         $from .. $from + $n - 1
     ];
 }
@@ -693,9 +723,16 @@ sub _transpose
 
 # make a line from a number of formatted data elements
 sub _assemble_line {
-    my ($tb, $in_body, $line_aref) = @_;
+    my ($tb, $in_body, $line_aref, $replace_spaces) = @_;
 
-    return sprintf( $tb->_forms->[ !!$in_body], @$line_aref) . "\n";
+    my $format = $tb->_forms->[ !!$in_body];
+
+    if ($replace_spaces)
+    {
+        $format =~ s/\s/=/g;
+    }
+
+    return sprintf($format, @$line_aref) . "\n";
 }
 
 sub _text_rule
@@ -727,7 +764,9 @@ sub _positive_width_rule
 {
     my ($tb, $in_body, $char, $alt) = @_;
 
-    my $rule = $tb->_assemble_line( $in_body, $tb->_blank);
+    my $rule = $tb->_assemble_line( $in_body, $tb->_blank,
+        ((ref($char) eq "CODE") ? 1 : 0),
+    );
 
     return $tb->_render_rule($rule, $char, $alt);
 }
@@ -896,7 +935,7 @@ in dependence on the data present.
 
 In the simplest case, if all you want is a number of (untitled) columns,
 you create an unspecified table and start adding data to it.  The number
-of columns is taken fronm the first line of data.
+of columns is taken from the first line of data.
 
 To specify a table you specify its columns.  A column description
 can contain a title and alignment requirements for the data, both
