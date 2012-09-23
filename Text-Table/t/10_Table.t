@@ -590,5 +590,6 @@ is( "" . Text::Table
 
 # TEST
 is ( "" . Text::Table->new({align => qr/!/})->load(["aa!"],["a!a"],["!aa"]),
-    "aa!  \n a!a \n  !aa\n"
+    "aa!  \n a!a \n  !aa\n",
+    "align with a regular expression - RT #79803",
 );
