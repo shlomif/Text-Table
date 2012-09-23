@@ -1,6 +1,6 @@
 Revision history for Perl extension Text::Table.
 
-1.126
+1.126       ( Sun 23 Sep 18:33:59 IST 2012 )
 - Fix handling of regular expression aligners.
     - Thanks to Ilya for the report.
     - Fixes https://rt.cpan.org/Ticket/Display.html?id=79803
