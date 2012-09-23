@@ -1,7 +1,7 @@
 use strict; 
 use warnings;
 
-use Test::More tests => 165;
+use Test::More tests => 166;
 
 use Text::Table;
 
@@ -587,3 +587,8 @@ is( "" . Text::Table
              -> new( "x" x 10 )
              -> add( "y" x 10 ),
     "x" x 10 . "\n" . "y" x 10 . "\n", "All in one - 2");
+
+# TEST
+is ( "" . Text::Table->new({align => qr/!/})->load(["aa!"],["a!a"],["!aa"]),
+    "aa!  \n a!a \n  !aa\n"
+);

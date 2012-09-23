@@ -132,7 +132,7 @@ sub _parse_spec {
     _default_if_empty(\$align, 'auto');
 
     unless (
-        ref $align eq 'Regex' or
+        ref $align eq 'Regexp' or
         $align =~ /^(?:left|center|right|num\(?|point\(?|auto)/
     ) {
         _warn( "Invalid align specification: '$align', using 'auto'");

@@ -1,5 +1,10 @@
 Revision history for Perl extension Text::Table.
 
+1.126
+- Fix handling of regular expression aligners.
+    - Thanks to Ilya for the report.
+    - Fixes https://rt.cpan.org/Ticket/Display.html?id=79803
+
 1.125       ( Sat  1 Sep 14:33:48 IDT 2012 )
 - Add examples/Text-Table-UTF8-example.pl
     - Thanks to Lady_Aleena for inspiring it.
