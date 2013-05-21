@@ -64,7 +64,7 @@ my $rule = $tb->rule(
 	}
 );
 
-my $output = 
+my $output =
 $tb->title .
 $rule .
 join('', map { $tb->body($_) } (0 .. $N-1)) .

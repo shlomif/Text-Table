@@ -1,4 +1,4 @@
-use strict; 
+use strict;
 use warnings;
 
 use Test::More tests => 166;
@@ -256,7 +256,7 @@ for my $title ( TITLES ) {
 }
 
 # overall functional check with typical table
-use constant TYP_TITLE => 
+use constant TYP_TITLE =>
     { title => 'name', align => 'left'},
     { title => 'age'},
     "salary\n in \$",
@@ -268,15 +268,22 @@ use constant TYP_DATA =>
     [ qw( scroogy 87 356.10)],
     "frosty 16 9999.9",
 ;
-use constant TYP_TITLE_ANS => <<'EOT';
+
+BEGIN
+{
+    use vars qw($WS);
+    $WS = ' ';
+};
+
+use constant TYP_TITLE_ANS => <<"EOT";
 name      age salary  gibsnich
-               in $           
+               in \$${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}
 EOT
-use constant TYP_BODY_ANS => <<'EOT';
-fred      28  1256            
-mary_anne 34   445.02         
-scroogy   87   356.10         
-frosty    16  9999.9          
+use constant TYP_BODY_ANS => <<"EOT";
+fred      28  1256${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}
+mary_anne 34   445.02${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}
+scroogy   87   356.10${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}
+frosty    16  9999.9${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}${WS}
 EOT
 use constant TYP_ANS => TYP_TITLE_ANS . TYP_BODY_ANS;
 
@@ -431,10 +438,10 @@ sub _check_title_0
     my ($args, $blurb) = @_;
 
     my $tb = Text::Table->new(
-        { 
-            title => 'x', 
+        {
+            title => 'x',
             (exists($args->{align_title})
-                ? (align_title => $args->{align_title},) 
+                ? (align_title => $args->{align_title},)
                 : ()
             ),
         });
@@ -467,10 +474,10 @@ sub _check_title_wo_params
     my ($args, $blurb) = @_;
 
     my $tb = Text::Table->new(
-        { 
-            title => "x\nxxx", 
+        {
+            title => "x\nxxx",
             (exists($args->{align_title})
-                ? (align_title_lines => $args->{align_title},) 
+                ? (align_title_lines => $args->{align_title},)
                 : ()
             ),
         });
@@ -560,13 +567,13 @@ EOT
                [ "m", "n", "o" ] );
 
     # TEST
-    is( "$tb", <<'EOT', "Table after spaces");
+    is( "$tb", <<"EOT", "Table after spaces");
 A B C
 1 2 3
 a c d
-b    
+b${WS}${WS}${WS}${WS}
 e f h
-  g  
+  g${WS}${WS}
 i j k
     l
 m n o

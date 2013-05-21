@@ -13,12 +13,12 @@ is ($tb->rule(
         sub {
             my ($i, $len) = @_;
 
-            return (($i == 0) ? ("X" x $len) : ($i == 2) ? ("Y" x $len) : 
+            return (($i == 0) ? ("X" x $len) : ($i == 2) ? ("Y" x $len) :
                 ("A" x $len))
             ;
         },
-        sub { 
-            my ($i, $len) = @_; 
+        sub {
+            my ($i, $len) = @_;
             return (($i == 0) ? "|=" : ($i == 3) ? "=|" : "+");
         },
     ),

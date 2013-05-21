@@ -43,10 +43,10 @@ from the documentation.)
 - Convert to the ISC license.
 
 1.117 Wed Apr 20 22:26:43 IDT 2011
-- add the callback ("sub { ... }")-based ->rule() method to render each 
+- add the callback ("sub { ... }")-based ->rule() method to render each
 section in a rule differently.
 - Add SHLOMIF as the maintainer.
-- Add t/pod.t and t/pod-coverage.t . Documented $table->stringify() and 
+- Add t/pod.t and t/pod-coverage.t . Documented $table->stringify() and
 $table->table_height().
 
 1.116 Sa 28 Aug 2010 22:00:56 CEST

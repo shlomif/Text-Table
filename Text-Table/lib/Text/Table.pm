@@ -21,9 +21,9 @@ use overload
 sub _is_sep {
     my $datum = shift;
 
-    return 
+    return
     (
-        defined($datum) 
+        defined($datum)
             and
         (
             (ref($datum) eq 'SCALAR')
@@ -138,7 +138,7 @@ sub _parse_spec {
         _warn( "Invalid align specification: '$align', using 'auto'");
         $align = 'auto';
     }
-    
+
     _default_if_empty(\$align_title, 'left');
 
     if ( ! _is_align($align_title) ) {
@@ -147,7 +147,7 @@ sub _parse_spec {
         );
         $align_title = 'left';
     }
-    
+
     _default_if_empty(\$align_title_lines, $align_title);
 
     if ( ! _is_align($align_title_lines) ) {
@@ -318,7 +318,7 @@ sub _compile_field_format
     my ($field, $seps) = @_;
 
     return _compile_format(
-        [map { defined($_) ? $_->{$field} : undef } @$seps] 
+        [map { defined($_) ? $_->{$field} : undef } @$seps]
     );
 }
 
@@ -367,7 +367,7 @@ sub _select_group {
             next GROUP_LOOP;
         }
         $tb->_check_index($g);
-        
+
         if (grep { $_} @{ $tb->_cols->[$g] })
         {
             return @$group;
@@ -392,9 +392,9 @@ sub _check_index {
 
 ### data entry
 
-sub _clear_cache { 
+sub _clear_cache {
     my ($tb) = @_;
-    
+
     $tb->_blank(undef());
     $tb->_lines(undef());
 
@@ -410,7 +410,7 @@ sub add {
     }
 
     foreach my $row (
-        _transpose( 
+        _transpose(
             [
                 map { [ defined() ? split( /\n/ ) : '' ] } @_
             ]
@@ -422,7 +422,7 @@ sub add {
     $tb->_clear_cache;
 
     return $tb;
-}   
+}
 
 # add one data line
 sub _add {
@@ -476,7 +476,7 @@ sub title_height { $_[ 0]->n_cols and scalar @{ $_[ 0]->_titles->[ 0]} }
 
 # number of data lines
 sub body_height
-{ 
+{
     my ($tb) = @_;
 
     return ($tb->n_cols && scalar @{ $tb->_cols->[0] });
@@ -484,7 +484,7 @@ sub body_height
 
 # total height
 sub table_height
-{ 
+{
     my $tb = shift;
     return $tb->title_height + $tb->body_height;
 }
@@ -560,7 +560,7 @@ sub title {
     my $tb = shift;
 
     return $tb->_table_portion( $tb->title_height, 0, @_);
-}   
+}
 
 # only body
 sub body {
@@ -570,7 +570,7 @@ sub body {
 }
 
 sub stringify
-{ 
+{
     my ($tb) = @_;
 
     return (scalar ( $tb->table() ));
@@ -704,7 +704,7 @@ sub _build_table_lines {
     return _transpose_n( $tb->height, \@cols); # bye-bye, @cols
 }
 
-# destructively transpose a number of lines/cols from an array of arrayrefs 
+# destructively transpose a number of lines/cols from an array of arrayrefs
 sub _transpose_n {
     my ($n, $cols) = @_;
 
@@ -904,11 +904,11 @@ Text::Table - Organize Data in Tables
 This prints a table from the given title and data like this:
 
   Planet  Radius Density
-          km     g/cm^3 
-  Mercury  2360  3.7    
-  Venus    6110  5.1    
-  Earth    6378  5.52   
-  Jupiter 71030  1.3    
+          km     g/cm^3
+  Mercury  2360  3.7
+  Venus    6110  5.1
+  Earth    6378  5.52
+  Jupiter 71030  1.3
 
 Note that two-line titles work, and that the planet names are aligned
 differently than the numbers.
@@ -1143,7 +1143,7 @@ I<auto> alignment combines numeric alignment with left alignment.
 Data items that look like numbers, and those that don't, form two
 virtual columns and are aligned accordingly: C<num> for numbers and
 C<left> for other strings.  These columns are left-aligned with
-each other (i.e. the narrower one is blank-filled) to form the 
+each other (i.e. the narrower one is blank-filled) to form the
 final alignment.
 
 This way, a column that happens to have only numbers in the data gets
@@ -1374,7 +1374,7 @@ line.  Parameters and response to context are as with C<table()>.
     $tb->rule;
     $tb->rule( $char);
     $tb->rule( $char, $char1);
-    $tb->rule( sub { my ($index, $len) = @_; }, 
+    $tb->rule( sub { my ($index, $len) = @_; },
                sub { my ($index, $len) = @_; },
     );
 
@@ -1453,7 +1453,7 @@ Shlomi Fish, L<http://www.shlomifish.org/> - CPAN ID: "SHLOMIF".
 =head2 ORIGINAL AUTHOR
 
     Anno Siegel
-    CPAN ID: ANNO 
+    CPAN ID: ANNO
     siegel@zrz.tu-berlin.de
     http://www.tu-berlin.de/~siegel
 
