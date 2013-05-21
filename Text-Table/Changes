@@ -1,104 +1,105 @@
 Revision history for Perl extension Text::Table.
 
-- Add t/style-trailing-space.t.
-    - Remove trailing space.
+1.127   2013-05-21
+    - Add t/style-trailing-space.t.
+        - Remove trailing space.
 
-1.126       ( Sun 23 Sep 18:33:59 IST 2012 )
-- Fix handling of regular expression aligners.
-    - Thanks to Ilya for the report.
-    - Fixes https://rt.cpan.org/Ticket/Display.html?id=79803
+1.126   2012-09-23
+    - Fix handling of regular expression aligners.
+        - Thanks to Ilya for the report.
+        - Fixes https://rt.cpan.org/Ticket/Display.html?id=79803
 
-1.125       ( Sat  1 Sep 14:33:48 IDT 2012 )
-- Add examples/Text-Table-UTF8-example.pl
-    - Thanks to Lady_Aleena for inspiring it.
+1.125   2012-09-01
+    - Add examples/Text-Table-UTF8-example.pl
+        - Thanks to Lady_Aleena for inspiring it.
 
-1.124       ( Fri Sep  2 12:35:14 IDT 2011 )
-- Fix handling whitespace in column separators when the callback-based
-rule is invoked.
-    - Thanks to Cary Millsap for the bug report.
+1.124   2011-09-02
+    - Fix handling whitespace in column separators when the callback-based
+    rule is invoked.
+        - Thanks to Cary Millsap for the bug report.
 
-1.123       ( Fri Jun 10 21:08:50 IDT 2011 )
-- Add ./Build to MANIFEST.SKIP so it won't be packaged.
-    - Thanks to Zed Pobre.
+1.123   2011-06-10
+    - Add ./Build to MANIFEST.SKIP so it won't be packaged.
+        - Thanks to Zed Pobre.
 
-1.122       ( Fri Jun  3 21:25:01 IDT 2011 )
-- Fix https://rt.cpan.org/Public/Bug/Display.html?id=68631 - passing
-hashrefs as separators.
-- Many refactorings.
+1.122   2011-06-03
+    - Fix https://rt.cpan.org/Public/Bug/Display.html?id=68631 - passing
+    hashrefs as separators.
+    - Many refactorings.
 
-1.121       ( Thu May 26 21:22:21 IDT 2011 )
-- Convert t/10_Table.t to Test-Count.
-- Refactored t/10_Table.t .
-- Refactored lib/Text/Table.pm
+1.121   2011-05-26
+    - Convert t/10_Table.t to Test-Count.
+    - Refactored t/10_Table.t .
+    - Refactored lib/Text/Table.pm
 
-1.120       ( Sat May 14 09:52:08 IDT 2011 )
-- Convert the build system to Module::Build :
-    - Build.PL and inc/Test/Run/Builder.pm .
-- Made the README more meaningful and concise (instead of a copy-and-paste
-from the documentation.)
-- Convert t/10_Table.t to Test::More.
+1.120   2011-05-14
+    - Convert the build system to Module::Build :
+        - Build.PL and inc/Test/Run/Builder.pm .
+    - Made the README more meaningful and concise (instead of a copy-and-paste
+    from the documentation.)
+    - Convert t/10_Table.t to Test::More.
 
-1.119       ( Sat May 14 07:33:25 IDT 2011 )
-- Fix the Copyright to say Anno first and Shlomi Fish later.
-    - thanks to Zed Pobre.
+1.119   2011-05-14
+    - Fix the Copyright to say Anno first and Shlomi Fish later.
+        - thanks to Zed Pobre.
 
-1.118
-- Convert to the ISC license.
+1.118       2011-05-05
+    - Convert to the ISC license.
 
-1.117 Wed Apr 20 22:26:43 IDT 2011
-- add the callback ("sub { ... }")-based ->rule() method to render each
-section in a rule differently.
-- Add SHLOMIF as the maintainer.
-- Add t/pod.t and t/pod-coverage.t . Documented $table->stringify() and
-$table->table_height().
+    1.117       2011-04-10
+    - add the callback ("sub { ... }")-based ->rule() method to render each
+    section in a rule differently.
+    - Add SHLOMIF as the maintainer.
+    - Add t/pod.t and t/pod-coverage.t . Documented $table->stringify() and
+    $table->table_height().
 
-1.116 Sa 28 Aug 2010 22:00:56 CEST
-- added color support
+1.116   2010-08-08
+    - added color support
 
-1.115 Do 13 Mai 2010 15:50:46 CEST
-- Bug when $/ is set to undef
+1.115   2010-05-13
+    - Bug when $/ is set to undef
 
-1.114 Sat Feb 16 13:52:19 CET 2008
-- Changed the documentation to reflect the possibility of multiline
-  data (by daotoad).
-      Sun May 11 13:37:44 CEST 2008
-- Fixed spurious warning with ->load([])
-- Released
+1.114   2008-02-16
+    - Changed the documentation to reflect the possibility of multiline
+      data (by daotoad).
+          Sun May 11 13:37:44 CEST 2008
+    - Fixed spurious warning with ->load([])
+    - Released
 
-1.107 Tue Sep 21 20:47:07 CEST 2004
-- Added a feature where rows with embedded newlines are expanded
-  into following rows. (by Josh Jore)
-- Added a feature where ->add and ->load return the table object
-  enabling chained method calls. (by Josh Jore)
-- Added auto-initialisation.  An unspecified table creates the
-  requisite number of title-less columns on first data entry.
+1.107   2004-09-21
+    - Added a feature where rows with embedded newlines are expanded
+      into following rows. (by Josh Jore)
+    - Added a feature where ->add and ->load return the table object
+      enabling chained method calls. (by Josh Jore)
+    - Added auto-initialisation.  An unspecified table creates the
+      requisite number of title-less columns on first data entry.
 
-1.102 Fri Sep 12 20:59:34 CEST 2003
-- Added features align_title and align_title_lines
-- fixed a bug with samples, which weren't honored in title alignment in
-  a table with no data
-- planned for release 6
+1.102   2003-09-12
+    - Added features align_title and align_title_lines
+    - fixed a bug with samples, which weren't honored in title alignment in
+      a table with no data
+    - planned for release 6
 
-1.100 Fri Sep 12 17:34:40 CEST 2003
-- Version jump to make module version and cvs version equal (and compatible)
+1.100   2003-09-12
+    - Version jump to make module version and cvs version equal (and compatible)
 
-0.05 Sun Feb 16 17:51:49 CET 2003
-- added method colrange (see bug id 2053)
+0.05    2003-02-16
+    - added method colrange (see bug id 2053)
 
-0.04  Sun Feb  9 17:14:36 CET 2003
-- see bug ids 2052, 2053
-- pod changed to reflect the implementation concerning rule() and
-  body_rule(). (It described rule() wrongly and listed non-existent
-  title_rule() instead of body_rule())
-- Added test for body_rule().
+0.04    2003-02-09
+    - see bug ids 2052, 2053
+    - pod changed to reflect the implementation concerning rule() and
+      body_rule(). (It described rule() wrongly and listed non-existent
+      title_rule() instead of body_rule())
+    - Added test for body_rule().
 
-0.03  Sun Dec 29 18:03:57 CET 2002
-- another spurious warning from _parse_spec fixed, test added
+0.03    2002-12-29
+    - another spurious warning from _parse_spec fixed, test added
 
-0.02  Tue Dec  3 23:53:54 CET 2002
-- minor bug fixes concerning spurious warnings
-- released to CPAN Thu Dec  5 01:42:11 CET 2002
+0.02    2002-12-03
+    - minor bug fixes concerning spurious warnings
+    - released to CPAN Thu Dec  5 01:42:11 CET 2002
 
-0.01  Tue Nov 19 17:47:02 2002
-- initial release to CPAN Tue Dec 3 07:59
+0.01    2002-11-19
+    - initial release to CPAN Tue Dec 3 07:59
 
