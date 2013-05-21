@@ -30,7 +30,6 @@ my $builder = Test::Run::Builder->new(
         resources =>
         {
             repository => "https://github.com/shlomif/Text-Table",
-            homepage => "http://www.shlomifish.org/open-source/projects/docmake/",
         },
         keywords =>
         [
