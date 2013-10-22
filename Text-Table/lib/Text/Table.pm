@@ -468,7 +468,7 @@ sub clear {
 
 ## sizes
 
-# number of table clolumns
+# number of table columns
 sub n_cols { scalar @{ $_[0]->{ spec}} }
 
 # number of title lines
@@ -1033,7 +1033,7 @@ don't have this field.
 
 A column is given as a column title (any number of lines),
 optionally followed by alignment requirements.  Alignment requirements
-start with a line that begins with an ampersamd "&".  However, only the
+start with a line that begins with an ampersand "&".  However, only the
 last such line counts as such, so if you have title lines that begin
 with "&", just append an ampersand on a line by itself as a dummy
 alignment section if you don't have one anyway.
@@ -1066,7 +1066,7 @@ $title contains the title lines and $sample the sample data.  Both can
 be given as a string or as an array-ref to the list of lines.  $align contains
 the alignment style (without a leading ampersand), usually as a string.
 You can also give a regular expression here, which specifies regex alignment.
-A regex can only be specified in the hash form of a colunm specification.
+A regex can only be specified in the hash form of a column specification.
 
 In hash form you can also specify how the title of a column is aligned
 with its body.  To do this, you specify the keyword C<align_title> with
@@ -1292,7 +1292,7 @@ and extra data beyond the number of table columns is ignored.
 Data entries can be multi-line strings.  The partial strings all go into
 the same column.  The corresponding fields of other columns remain empty
 unless there is another multi-line entry in that column that fills the
-fieds.  Adding a line with multi-line entries is equivalent to adding
+fields.  Adding a line with multi-line entries is equivalent to adding
 multiple lines.
 
 Every call to C<add()> increases the body height of the table by the
