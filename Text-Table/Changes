@@ -1,5 +1,9 @@
 Revision history for Perl extension Text::Table.
 
+1.128   2013-10-25
+    - Typo fixes thanks to David Steinbrunner.
+        - https://github.com/shlomif/Text-Table/pull/1
+
 1.127   2013-05-21
     - Add t/style-trailing-space.t.
         - Remove trailing space.
