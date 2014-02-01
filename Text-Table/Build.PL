@@ -15,7 +15,7 @@ my $builder = Test::Run::Builder->new(
         'Module::Build' => 0.36,
     },
     build_requires => {
-        'perl' => 0,
+        'perl' => '5.008',
         'List::Util' => 0,
         'Test::More' => 0,
     },
