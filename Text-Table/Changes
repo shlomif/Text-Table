@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::Table.
 
+1.129   2014-02-01
+    - Add minimum perl version to META.yml (CPANTS).
+
 1.128   2013-10-25
     - Typo fixes thanks to David Steinbrunner.
         - https://github.com/shlomif/Text-Table/pull/1

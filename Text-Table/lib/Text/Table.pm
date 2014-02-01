@@ -4,6 +4,8 @@ package Text::Table;
 use strict;
 use warnings;
 
+use 5.008;
+
 use List::Util qw(sum max);
 
 use Text::Aligner qw(align);
