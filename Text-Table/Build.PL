@@ -15,11 +15,11 @@ my $builder = Test::Run::Builder->new(
         'Module::Build' => 0.36,
     },
     build_requires => {
-        'perl' => '5.008',
         'List::Util' => 0,
         'Test::More' => 0,
     },
     requires => {
+        'perl' => '5.008',
         'strict' => 0,
         'warnings' => 0,
         'Text::Aligner' => '0.05',

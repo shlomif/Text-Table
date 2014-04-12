@@ -1,5 +1,8 @@
 Revision history for Perl extension Text::Table.
 
+1.130   2014-04-12
+    - Minimum perl version in 'requires' this time in META.yml (CPANTS).
+
 1.129   2014-02-01
     - Add minimum perl version to META.yml (CPANTS).
 
