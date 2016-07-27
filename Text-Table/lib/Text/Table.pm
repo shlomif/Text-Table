@@ -14,9 +14,13 @@ BEGIN {
     our $VERSION = '1.130';
 }
 
-use overload
-    '""'  => 'stringify',
-;
+use overload (
+    # Don't stringify when only doing boolean tests, since stringification can
+    # be expensive for large tables:
+    bool => sub { return 1; },
+    # Stringify when Table instances are used in most other scalar cases:
+    '""' => 'stringify',
+);
 
 ### User interface:  How to specify columns and column separators
 
