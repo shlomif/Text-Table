@@ -11,7 +11,7 @@ use List::Util qw(sum max);
 use Text::Aligner qw(align);
 
 BEGIN {
-    our $VERSION = '1.130';
+    our $VERSION = '1.131';
 }
 
 use overload (

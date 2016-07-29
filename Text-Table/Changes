@@ -1,5 +1,10 @@
 Revision history for Perl extension Text::Table.
 
+1.131   2016-07-29
+    - Merge pull-request from Zac Bentley to speed up boolean tests.
+        - https://github.com/shlomif/Text-Table/pull/4
+        - Closes https://github.com/shlomif/Text-Table/issues/3
+
 1.130   2014-04-12
     - Minimum perl version in 'requires' this time in META.yml (CPANTS).
     - Change the META.yml license indicator to 'mit' - it is the ISC
