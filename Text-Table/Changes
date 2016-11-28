@@ -4,6 +4,10 @@ Revision history for Perl extension Text::Table.
     - Fix a syntax error in the POD.
         - https://rt.cpan.org/Ticket/Display.html?id=118852
         - Thanks to Rihards for the report.
+    - Convert to Dist-Zilla and Pod::Weaver
+        - See https://rt.cpan.org/Ticket/Display.html?id=118923
+        - Thanks to coolo from OpenSUSE.
+        - In the process, change the license in the META files to ISC.
 
 1.131   2016-07-29
     - Merge pull-request from Zac Bentley to speed up boolean tests.
