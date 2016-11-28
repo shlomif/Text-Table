@@ -4,6 +4,9 @@ This module can be used to render plaintext/ASCII-art/Unicode-art tables.
 
 # Building from source
 
+[![Travis-CI Build Status](https://travis-ci.org/shlomif/Text-Table.svg?branch=master)](https://travis-ci.org/shlomif/Text-Table)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/b9kbqrvv235o5mxs/branch/master?svg=true)](https://ci.appveyor.com/project/shlomif/text-table/branch/master)
+
 We use [Dist-Zilla](http://dzil.org/). To run the tests, install Dist-Zilla
 from CPAN and type:
 
