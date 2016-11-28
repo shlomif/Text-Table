@@ -1,6 +1,6 @@
 Revision history for Perl extension Text::Table.
 
-1.132   Unknown
+1.132   2016-11-28
     - Fix a syntax error in the POD.
         - https://rt.cpan.org/Ticket/Display.html?id=118852
         - Thanks to Rihards for the report.

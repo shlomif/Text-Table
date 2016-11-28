@@ -10,7 +10,7 @@ use List::Util qw(sum max);
 
 use Text::Aligner qw(align);
 
-our $VERSION = '1.131';
+our $VERSION = '1.132';
 
 use overload (
     # Don't stringify when only doing boolean tests, since stringification can
