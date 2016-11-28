@@ -1,5 +1,10 @@
 Revision history for Perl extension Text::Table.
 
+1.132   Unknown
+    - Fix a syntax error in the POD.
+        - https://rt.cpan.org/Ticket/Display.html?id=118852
+        - Thanks to Rihards for the report.
+
 1.131   2016-07-29
     - Merge pull-request from Zac Bentley to speed up boolean tests.
         - https://github.com/shlomif/Text-Table/pull/4

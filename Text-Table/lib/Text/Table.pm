@@ -1395,7 +1395,7 @@ one character is specified (the second call), it replaces the blanks
 in the first form, but non-blank column separators are retained.  If
 a second character is specified, it replaces the non-blank parts of
 the separators.  So specifying the same character twice gives a solid
-line of table width.  Another useful combo is C<$tb-E<lt>rule( '-', '+')>,
+line of table width.  Another useful combo is C<$tb-E<gt>rule( '-', '+')>,
 together with separators that contain a single nonblank "|", for a
 popular representation of line crossings.
 
