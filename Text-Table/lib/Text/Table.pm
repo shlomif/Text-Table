@@ -957,7 +957,7 @@ the length of the longest partial line.  The largest number of title
 lines in a column determines how many title lines the table has as a
 whole, including the case that no column has any titles.
 
-On output, Columns are separated by a single blank.  You can control
+On output, columns are separated by a single blank.  You can control
 what goes between columns by specifying separators between (or before,
 or after) columns.  Separators don't contain any data and don't count
 in column indexing.  They also don't accumulate: in a sequence of only
