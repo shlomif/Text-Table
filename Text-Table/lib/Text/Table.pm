@@ -1108,7 +1108,7 @@ The hash representation of a separator has the format
     }
 
 $title is the separator to be used in the title area and $body
-the one for the body.  If only one is given, the other is used for
+the one for the body.  If only one is given, it will be used for
 both.  If none is given, a blank is used.  If one is shorter than
 the other, it is blank filled on the right.
 

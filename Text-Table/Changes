@@ -6,6 +6,9 @@ Revision history for Perl extension Text::Table.
         - Thanks to John Marino for the bug report.
     - Fix https://rt.cpan.org/Ticket/Display.html?id=118853 (doc typo)
         - Thanks to Rihards for the report.
+    - Fix https://rt.cpan.org/Ticket/Display.html?id=118851 (grammar error)
+        - Thanks to Rihards for the report.
+
 
 1.132   2016-11-28
     - Fix a syntax error in the POD.
