@@ -2,21 +2,18 @@
 
 use strict;
 use warnings;
-
 use utf8;
-use lib "lib";
-use Text::Table;
+
+use Text::Table ();
+use Data::Dumper qw/ Dumper /;
 
 binmode STDOUT, ':utf8';
 
-my $tb = Text::Table->new( 
- { title => 'Left Title' }, \' | ', 
- { title => 'Right Title', align_title => 'right' }
-);
+my $tb = Text::Table->new( { title => 'Left Title' },
+    \' | ', { title => 'Right Title', align_title => 'right' } );
 
-$tb->add('<',( '>', align => 'right') );
+$tb->add( '<', ( '>', align => 'right' ) );
 
-use Data::Dumper;
 print Dumper $tb;
 
 print $tb
