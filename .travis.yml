@@ -1,23 +1,22 @@
 sudo: false
 language: perl
 perl:
-   - 'blead'
-   - '5.24'
-   - '5.22'
-   - '5.20'
-   - '5.18'
-   - '5.16'
-   - '5.14'
+    - "blead"
+    - "5.30"
+    - "5.28"
+    - "5.26"
+    - "5.24"
+    - "5.22"
 matrix:
-   allow_failures:
-      - perl: 'blead'
-   fast_finish: true
+    allow_failures:
+        - perl: "blead"
+    fast_finish: true
 before_install:
-   - git config --global user.name "TravisCI"
-   - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
+    - git config --global user.name "TravisCI"
+    - git config --global user.email $HOSTNAME":not-for-mail@travis-ci.org"
 install:
-   - cpanm --quiet --notest --skip-satisfied Dist::Zilla Pod::Weaver::Section::Support Software::License::ISC
-   - "(cd Text-Table/ && dzil authordeps          --missing | grep -vP '[^\\w:]' | xargs -n 5 -P 10 cpanm --quiet --notest)"
-   - "(cd Text-Table/ && dzil listdeps   --author --missing | grep -vP '[^\\w:]' | cpanm --verbose)"
+    - cpanm --quiet --notest --skip-satisfied Dist::Zilla Pod::Weaver::Section::Support Software::License::ISC
+    - "(cd Text-Table/ && dzil authordeps          --missing | grep -vP '[^\\w:]' | xargs -n 5 -P 10 cpanm --quiet --notest)"
+    - "(cd Text-Table/ && dzil listdeps   --author --missing | grep -vP '[^\\w:]' | cpanm --verbose)"
 script:
-   - "cd Text-Table/ && dzil smoke --release --author"
+    - "cd Text-Table/ && dzil smoke --release --author"
