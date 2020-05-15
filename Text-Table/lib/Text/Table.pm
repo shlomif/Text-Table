@@ -10,8 +10,6 @@ use List::Util qw(sum max);
 
 use Text::Aligner qw(align);
 
-our $VERSION = '1.133';
-
 use overload (
     # Don't stringify when only doing boolean tests, since stringification can
     # be expensive for large tables:
