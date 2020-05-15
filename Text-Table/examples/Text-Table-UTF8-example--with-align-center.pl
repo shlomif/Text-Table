@@ -6,7 +6,7 @@ use utf8;
 
 use Text::Table ();
 
-binmode STDOUT, ':utf8';
+binmode STDOUT, ':encoding(utf8)';
 
 my @cols = qw/First Last/;
 push @cols,
