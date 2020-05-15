@@ -1,0 +1,6 @@
+[PerlCritic]
+argv =
+select = {t,lib,scripts}/**/*.{pl,pm,t} {t,lib,scripts}/*.{pl,pm,t}
+
+[TestCount]
+select = t/*.t
