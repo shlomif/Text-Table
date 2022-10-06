@@ -1475,7 +1475,15 @@ LICENSE file included with this module.
 
 =head1 SEE ALSO
 
-L<Text::Aligner>, L<perl(1)> .
+L<Text::Table::Tiny> supports a simple model for generating
+text tables, with some flexibility on the look of the table.
+
+L<Text::Table::Manifold> provides a much richer interface for
+defining tables. The SEE ALSO section of its documentation
+lists a lot more table modules on CPAN.
+
+L<Text::Aligner> can be used to align text on a line-by-line basis.
+
 
 =head1 EXAMPLES
 
